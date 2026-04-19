@@ -11,9 +11,9 @@ Group 3 Data Analytics Project
 ## 👨‍💻 Team Members
 
 * **Rishi Dhali** – Team Lead
-* Siddharth
-* Adarsh
-* Ashraf
+* Sm Musharraf Ashraf
+* Adarsh J M
+* Siddharth v
 
 ---
 
