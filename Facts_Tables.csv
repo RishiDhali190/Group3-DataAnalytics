@@ -1,0 +1,1 @@
+Transaction_ID (PK),Customer_ID (FK),Product_ID (FK),Date_ID (FK),Total_Items,Total_Cost,Discount_Applied
