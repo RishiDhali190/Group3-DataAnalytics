@@ -1,0 +1,137 @@
+product_code,product_name,category,subcategory,brand,unit_price,cost_price,supplier,is_active
+P00001,Sony Laptop 1,Electronics,Laptop,Sony,168.97,89.76,Supplier_6,True
+P00002,Bose Laptop 2,Electronics,Laptop,Bose,1242.34,860.95,Supplier_2,True
+P00003,LG Laptop 3,Electronics,Laptop,LG,293.76,183.0,Supplier_9,True
+P00004,Sony Smartphone 1,Electronics,Smartphone,Sony,1908.41,975.89,Supplier_15,True
+P00005,LG Smartphone 2,Electronics,Smartphone,LG,520.97,304.0,Supplier_2,True
+P00006,Canon Smartphone 3,Electronics,Smartphone,Canon,1519.3,981.48,Supplier_2,True
+P00007,Bose Smartphone 4,Electronics,Smartphone,Bose,492.85,209.94,Supplier_17,True
+P00008,Sony Tablet 1,Electronics,Tablet,Sony,1312.23,631.88,Supplier_13,True
+P00009,Canon Tablet 2,Electronics,Tablet,Canon,767.79,335.94,Supplier_18,True
+P00010,LG Tablet 3,Electronics,Tablet,LG,990.27,584.12,Supplier_19,True
+P00011,Apple Tablet 4,Electronics,Tablet,Apple,170.61,109.12,Supplier_7,True
+P00012,Bose Headphones 1,Electronics,Headphones,Bose,1220.93,564.88,Supplier_5,True
+P00013,Canon Headphones 2,Electronics,Headphones,Canon,897.23,417.33,Supplier_9,True
+P00014,Sony Headphones 3,Electronics,Headphones,Sony,341.42,233.23,Supplier_13,True
+P00015,Sony Headphones 4,Electronics,Headphones,Sony,1557.99,983.46,Supplier_8,True
+P00016,Canon Headphones 5,Electronics,Headphones,Canon,322.64,205.19,Supplier_8,True
+P00017,Sony Camera 1,Electronics,Camera,Sony,413.17,258.34,Supplier_7,True
+P00018,Samsung Camera 2,Electronics,Camera,Samsung,118.92,76.46,Supplier_16,True
+P00019,Apple Camera 3,Electronics,Camera,Apple,63.47,38.58,Supplier_10,True
+P00020,Sony Camera 4,Electronics,Camera,Sony,1327.21,630.82,Supplier_2,True
+P00021,LG Camera 5,Electronics,Camera,LG,1498.97,604.6,Supplier_7,True
+P00022,LG Smartwatch 1,Electronics,Smartwatch,LG,1779.43,816.75,Supplier_4,True
+P00023,LG Smartwatch 2,Electronics,Smartwatch,LG,1090.08,556.09,Supplier_3,True
+P00024,Sony Smartwatch 3,Electronics,Smartwatch,Sony,752.09,410.69,Supplier_18,True
+P00025,Dell Speaker 1,Electronics,Speaker,Dell,956.24,508.69,Supplier_19,True
+P00026,HP Speaker 2,Electronics,Speaker,HP,1517.85,920.01,Supplier_4,True
+P00027,Bose Monitor 1,Electronics,Monitor,Bose,1164.17,600.35,Supplier_1,True
+P00028,Bose Monitor 2,Electronics,Monitor,Bose,626.8,409.45,Supplier_12,True
+P00029,Dell Monitor 3,Electronics,Monitor,Dell,639.78,415.6,Supplier_5,True
+P00030,Samsung Monitor 4,Electronics,Monitor,Samsung,766.92,459.93,Supplier_18,True
+P00031,LG Monitor 5,Electronics,Monitor,LG,953.96,572.96,Supplier_14,True
+P00032,Nike T-Shirt 1,Clothing,T-Shirt,Nike,74.79,45.92,Supplier_15,True
+P00033,H&M T-Shirt 2,Clothing,T-Shirt,H&M,134.82,94.0,Supplier_20,True
+P00034,Uniqlo T-Shirt 3,Clothing,T-Shirt,Uniqlo,111.64,56.8,Supplier_7,True
+P00035,Levi's T-Shirt 4,Clothing,T-Shirt,Levi's,149.28,65.66,Supplier_18,True
+P00036,Nike Jeans 1,Clothing,Jeans,Nike,55.88,30.01,Supplier_20,True
+P00037,Puma Jeans 2,Clothing,Jeans,Puma,184.04,110.99,Supplier_17,True
+P00038,H&M Jeans 3,Clothing,Jeans,H&M,140.38,59.53,Supplier_12,True
+P00039,H&M Dress 1,Clothing,Dress,H&M,45.52,26.32,Supplier_12,True
+P00040,Uniqlo Dress 2,Clothing,Dress,Uniqlo,193.33,123.61,Supplier_3,True
+P00041,Zara Jacket 1,Clothing,Jacket,Zara,76.35,39.61,Supplier_14,True
+P00042,Uniqlo Jacket 2,Clothing,Jacket,Uniqlo,133.01,83.83,Supplier_13,True
+P00043,H&M Shoes 1,Clothing,Shoes,H&M,198.24,108.69,Supplier_16,True
+P00044,Adidas Shoes 2,Clothing,Shoes,Adidas,176.1,114.23,Supplier_19,True
+P00045,Uniqlo Shoes 3,Clothing,Shoes,Uniqlo,60.62,34.42,Supplier_12,True
+P00046,Adidas Shoes 4,Clothing,Shoes,Adidas,179.76,71.96,Supplier_17,True
+P00047,Gap Shoes 5,Clothing,Shoes,Gap,49.26,21.87,Supplier_16,True
+P00048,Zara Sneakers 1,Clothing,Sneakers,Zara,43.25,21.52,Supplier_19,True
+P00049,Uniqlo Sneakers 2,Clothing,Sneakers,Uniqlo,59.77,36.05,Supplier_10,True
+P00050,H&M Sneakers 3,Clothing,Sneakers,H&M,120.96,84.16,Supplier_8,True
+P00051,Levi's Sneakers 4,Clothing,Sneakers,Levi's,128.79,86.94,Supplier_10,True
+P00052,Nike Sneakers 5,Clothing,Sneakers,Nike,52.2,29.69,Supplier_11,True
+P00053,Uniqlo Sweater 1,Clothing,Sweater,Uniqlo,82.02,51.97,Supplier_12,True
+P00054,H&M Sweater 2,Clothing,Sweater,H&M,28.78,12.01,Supplier_16,True
+P00055,H&M Sweater 3,Clothing,Sweater,H&M,20.79,9.25,Supplier_3,True
+P00056,Nike Sweater 4,Clothing,Sweater,Nike,137.5,85.37,Supplier_15,True
+P00057,Uniqlo Shorts 1,Clothing,Shorts,Uniqlo,139.22,64.94,Supplier_6,True
+P00058,Gap Shorts 2,Clothing,Shorts,Gap,151.13,90.23,Supplier_15,True
+P00059,H&M Shorts 3,Clothing,Shorts,H&M,148.17,96.02,Supplier_6,True
+P00060,Philips Blender 1,Home,Blender,Philips,461.52,247.19,Supplier_19,True
+P00061,Dyson Blender 2,Home,Blender,Dyson,311.24,130.59,Supplier_13,True
+P00062,KitchenAid Blender 3,Home,Blender,KitchenAid,404.57,232.25,Supplier_2,True
+P00063,Philips Coffee Maker 1,Home,Coffee Maker,Philips,287.9,152.37,Supplier_1,True
+P00064,Ninja Coffee Maker 2,Home,Coffee Maker,Ninja,237.91,164.84,Supplier_5,True
+P00065,Philips Vacuum 1,Home,Vacuum,Philips,172.98,108.4,Supplier_18,True
+P00066,Breville Vacuum 2,Home,Vacuum,Breville,325.14,149.34,Supplier_16,True
+P00067,Breville Vacuum 3,Home,Vacuum,Breville,197.98,100.76,Supplier_9,True
+P00068,KitchenAid Vacuum 4,Home,Vacuum,KitchenAid,257.64,136.35,Supplier_2,True
+P00069,Instant Pot Vacuum 5,Home,Vacuum,Instant Pot,413.56,248.66,Supplier_20,True
+P00070,Cuisinart Toaster 1,Home,Toaster,Cuisinart,75.46,39.58,Supplier_12,True
+P00071,Ninja Toaster 2,Home,Toaster,Ninja,476.31,205.88,Supplier_10,True
+P00072,Philips Toaster 3,Home,Toaster,Philips,383.08,246.85,Supplier_9,True
+P00073,Cuisinart Microwave 1,Home,Microwave,Cuisinart,481.84,313.49,Supplier_9,True
+P00074,Cuisinart Microwave 2,Home,Microwave,Cuisinart,402.6,244.22,Supplier_8,True
+P00075,Breville Microwave 3,Home,Microwave,Breville,237.03,133.86,Supplier_2,True
+P00076,Ninja Microwave 4,Home,Microwave,Ninja,392.37,261.93,Supplier_11,True
+P00077,Dyson Microwave 5,Home,Microwave,Dyson,265.55,151.84,Supplier_11,True
+P00078,Cuisinart Air Purifier 1,Home,Air Purifier,Cuisinart,192.04,133.7,Supplier_18,True
+P00079,Dyson Air Purifier 2,Home,Air Purifier,Dyson,237.98,152.22,Supplier_10,True
+P00080,Ninja Air Purifier 3,Home,Air Purifier,Ninja,241.2,103.03,Supplier_17,True
+P00081,Instant Pot Air Purifier 4,Home,Air Purifier,Instant Pot,283.68,133.59,Supplier_15,True
+P00082,Philips Air Purifier 5,Home,Air Purifier,Philips,145.39,69.67,Supplier_2,True
+P00083,Breville Lamp 1,Home,Lamp,Breville,179.89,83.52,Supplier_2,True
+P00084,Cuisinart Lamp 2,Home,Lamp,Cuisinart,104.14,51.76,Supplier_5,True
+P00085,Dyson Lamp 3,Home,Lamp,Dyson,51.19,33.69,Supplier_19,True
+P00086,Instant Pot Lamp 4,Home,Lamp,Instant Pot,346.34,167.67,Supplier_20,True
+P00087,Ninja Lamp 5,Home,Lamp,Ninja,107.74,73.17,Supplier_10,True
+P00088,Philips Bedding 1,Home,Bedding,Philips,148.03,77.23,Supplier_11,True
+P00089,Dyson Bedding 2,Home,Bedding,Dyson,498.47,227.3,Supplier_4,True
+P00090,Ninja Bedding 3,Home,Bedding,Ninja,197.16,80.77,Supplier_8,True
+P00091,Nike Yoga Mat 1,Sports,Yoga Mat,Nike,21.43,12.08,Supplier_7,True
+P00092,Under Armour Yoga Mat 2,Sports,Yoga Mat,Under Armour,262.98,138.3,Supplier_10,True
+P00093,Reebok Yoga Mat 3,Sports,Yoga Mat,Reebok,139.61,93.74,Supplier_19,True
+P00094,Lululemon Yoga Mat 4,Sports,Yoga Mat,Lululemon,36.41,19.77,Supplier_9,True
+P00095,Reebok Yoga Mat 5,Sports,Yoga Mat,Reebok,97.34,51.5,Supplier_19,True
+P00096,New Balance Dumbbells 1,Sports,Dumbbells,New Balance,227.67,96.66,Supplier_3,True
+P00097,Adidas Dumbbells 2,Sports,Dumbbells,Adidas,69.68,44.86,Supplier_2,True
+P00098,New Balance Running Shoes 1,Sports,Running Shoes,New Balance,180.87,109.28,Supplier_11,True
+P00099,Under Armour Running Shoes 2,Sports,Running Shoes,Under Armour,174.35,91.12,Supplier_17,True
+P00100,New Balance Running Shoes 3,Sports,Running Shoes,New Balance,279.33,117.61,Supplier_19,True
+P00101,Nike Bicycle 1,Sports,Bicycle,Nike,240.59,118.08,Supplier_11,True
+P00102,Puma Bicycle 2,Sports,Bicycle,Puma,188.61,87.6,Supplier_12,True
+P00103,Lululemon Tennis Racket 1,Sports,Tennis Racket,Lululemon,172.27,105.84,Supplier_13,True
+P00104,Nike Tennis Racket 2,Sports,Tennis Racket,Nike,48.12,22.47,Supplier_11,True
+P00105,Under Armour Tennis Racket 3,Sports,Tennis Racket,Under Armour,229.78,144.74,Supplier_1,True
+P00106,Puma Basketball 1,Sports,Basketball,Puma,114.85,75.38,Supplier_7,True
+P00107,Lululemon Basketball 2,Sports,Basketball,Lululemon,165.22,71.34,Supplier_1,True
+P00108,Nike Basketball 3,Sports,Basketball,Nike,71.62,34.97,Supplier_12,True
+P00109,Nike Resistance Bands 1,Sports,Resistance Bands,Nike,289.67,123.92,Supplier_12,True
+P00110,Puma Resistance Bands 2,Sports,Resistance Bands,Puma,35.34,22.06,Supplier_3,True
+P00111,Puma Resistance Bands 3,Sports,Resistance Bands,Puma,102.66,58.56,Supplier_19,True
+P00112,Nike Resistance Bands 4,Sports,Resistance Bands,Nike,73.11,38.04,Supplier_12,True
+P00113,Nike Resistance Bands 5,Sports,Resistance Bands,Nike,265.58,133.01,Supplier_19,True
+P00114,Clif Bar Organic Coffee 1,Food,Organic Coffee,Clif Bar,15.02,10.19,Supplier_14,True
+P00115,Clif Bar Organic Coffee 2,Food,Organic Coffee,Clif Bar,24.71,13.6,Supplier_16,True
+P00116,Bob's Red Mill Protein Powder 1,Food,Protein Powder,Bob's Red Mill,5.35,2.16,Supplier_10,True
+P00117,Clif Bar Protein Powder 2,Food,Protein Powder,Clif Bar,47.66,27.61,Supplier_7,True
+P00118,Clif Bar Granola 1,Food,Granola,Clif Bar,45.82,31.44,Supplier_12,True
+P00119,Organic Valley Granola 2,Food,Granola,Organic Valley,27.07,18.23,Supplier_4,True
+P00120,Clif Bar Granola 3,Food,Granola,Clif Bar,24.02,10.72,Supplier_19,True
+P00121,Whole Foods Olive Oil 1,Food,Olive Oil,Whole Foods,41.58,17.56,Supplier_7,True
+P00122,Nature's Path Olive Oil 2,Food,Olive Oil,Nature's Path,30.94,13.89,Supplier_5,True
+P00123,Organic Valley Olive Oil 3,Food,Olive Oil,Organic Valley,30.31,20.69,Supplier_9,True
+P00124,Organic Valley Honey 1,Food,Honey,Organic Valley,47.47,30.76,Supplier_16,True
+P00125,Organic Valley Honey 2,Food,Honey,Organic Valley,47.1,25.5,Supplier_12,True
+P00126,Bob's Red Mill Tea 1,Food,Tea,Bob's Red Mill,11.95,6.39,Supplier_18,True
+P00127,Organic Valley Tea 2,Food,Tea,Organic Valley,22.49,9.71,Supplier_6,True
+P00128,Bob's Red Mill Tea 3,Food,Tea,Bob's Red Mill,40.5,25.2,Supplier_2,True
+P00129,Whole Foods Tea 4,Food,Tea,Whole Foods,46.26,32.31,Supplier_19,True
+P00130,Organic Valley Nuts 1,Food,Nuts,Organic Valley,24.32,13.31,Supplier_3,True
+P00131,Whole Foods Nuts 2,Food,Nuts,Whole Foods,9.96,5.64,Supplier_2,True
+P00132,Organic Valley Nuts 3,Food,Nuts,Organic Valley,29.39,19.68,Supplier_5,True
+P00133,Whole Foods Nuts 4,Food,Nuts,Whole Foods,44.37,25.93,Supplier_20,True
+P00134,Whole Foods Chocolate 1,Food,Chocolate,Whole Foods,7.67,3.81,Supplier_19,True
+P00135,Clif Bar Chocolate 2,Food,Chocolate,Clif Bar,39.6,22.74,Supplier_5,True
+P00136,Organic Valley Chocolate 3,Food,Chocolate,Organic Valley,24.31,10.82,Supplier_4,True

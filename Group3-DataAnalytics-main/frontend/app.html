@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumer360 - Full Stack Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .endpoint {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+        }
+        .endpoint-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .endpoint-url {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #666;
+        }
+        .response {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Consumer360</h1>
+        <p class="subtitle">Full-Stack Retail Analytics Platform</p>
+        
+        <div id="status" class="status info">
+            <strong>🔄 Checking backend connection...</strong>
+        </div>
+
+        <div class="endpoint">
+            <div class="endpoint-title">Health Check</div>
+            <div class="endpoint-url">GET /health</div>
+            <button onclick="testHealth()">Test Health</button>
+        </div>
+
+        <div class="endpoint">
+            <div class="endpoint-title">Login (Demo)</div>
+            <div class="endpoint-url">POST /api/v1/auth/login</div>
+            <button onclick="testLogin()">Test Login</button>
+        </div>
+
+        <div class="endpoint">
+            <div class="endpoint-title">Dashboard KPIs</div>
+            <div class="endpoint-url">GET /api/v1/dashboard/kpis</div>
+            <button onclick="testDashboard()">Test Dashboard</button>
+        </div>
+
+        <div class="endpoint">
+            <div class="endpoint-title">Open Full UI</div>
+            <button onclick="openFullUI()" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                🎨 Open Dashboard
+            </button>
+        </div>
+
+        <div id="response" class="response" style="display:none;"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5001';
+        let authToken = null;
+
+        // Check backend on load
+        window.onload = () => {
+            testHealth();
+        };
+
+        async function testHealth() {
+            showLoading();
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                showResponse(data);
+                showStatus('✅ Backend is running!', 'success');
+            } catch (error) {
+                showResponse({ error: error.message });
+                showStatus('❌ Backend is not running. Start it with: npm start', 'error');
+            }
+        }
+
+        async function testLogin() {
+            showLoading();
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: 'admin@consumer360.com',
+                        password: 'admin123'
+                    })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    authToken = data.token;
+                    showStatus('✅ Login successful! Token saved.', 'success');
+                }
+                showResponse(data);
+            } catch (error) {
+                showResponse({ error: error.message });
+                showStatus('❌ Login failed', 'error');
+            }
+        }
+
+        async function testDashboard() {
+            if (!authToken) {
+                showStatus('⚠️ Please login first to get auth token', 'error');
+                return;
+            }
+            showLoading();
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/dashboard/kpis`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                showResponse(data);
+                showStatus('✅ Dashboard data loaded', 'success');
+            } catch (error) {
+                showResponse({ error: error.message });
+                showStatus('❌ Dashboard request failed', 'error');
+            }
+        }
+
+        function openFullUI() {
+            window.open('index.html', '_blank');
+        }
+
+        function showLoading() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = 'status info';
+            statusDiv.innerHTML = '<strong>⏳ Loading...</strong><span class="loading"></span>';
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = `status ${type}`;
+            statusDiv.innerHTML = `<strong>${message}</strong>`;
+        }
+
+        function showResponse(data) {
+            const responseDiv = document.getElementById('response');
+            responseDiv.style.display = 'block';
+            responseDiv.textContent = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+</html>

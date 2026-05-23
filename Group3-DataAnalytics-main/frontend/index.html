@@ -1,0 +1,2459 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consumer360 – Retail Intelligence Platform</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #111827;
+  --bg-card: #1a2235;
+  --bg-card-hover: #1e2a42;
+  --border: #2a3a5c;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+  --accent-cyan: #06b6d4;
+  --accent-green: #10b981;
+  --accent-orange: #f59e0b;
+  --accent-red: #ef4444;
+  --accent-pink: #ec4899;
+  --gradient-1: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  --gradient-2: linear-gradient(135deg, #06b6d4, #3b82f6);
+  --gradient-3: linear-gradient(135deg, #10b981, #06b6d4);
+  --sidebar-width: 260px;
+  --header-height: 64px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+[data-theme="light"] {
+  --bg-primary: #f0f4f8;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --border: #e2e8f0;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  transition: var(--transition);
+}
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
+
+/* ===== LOGIN PAGE ===== */
+#loginPage {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #0a0e1a 0%, #111827 50%, #0d1b2e 100%);
+  overflow: hidden;
+}
+.login-bg-animation {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.login-orb {
+  position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15;
+  animation: orbFloat 8s ease-in-out infinite;
+}
+.login-orb:nth-child(1) { width: 600px; height: 600px; background: #3b82f6; top: -200px; left: -200px; animation-delay: 0s; }
+.login-orb:nth-child(2) { width: 400px; height: 400px; background: #8b5cf6; bottom: -100px; right: -100px; animation-delay: 3s; }
+.login-orb:nth-child(3) { width: 300px; height: 300px; background: #06b6d4; top: 50%; left: 50%; animation-delay: 6s; }
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+.login-card {
+  position: relative; z-index: 1;
+  background: rgba(26, 34, 53, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 24px;
+  padding: 48px 40px;
+  width: 100%; max-width: 420px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+  animation: loginCardIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes loginCardIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.login-logo {
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; margin-bottom: 32px;
+}
+.login-logo-circle {
+  width: 72px; height: 72px; border-radius: 20px;
+  background: var(--gradient-1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 900; color: white;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.4);
+  animation: logoPulse 3s ease-in-out infinite;
+}
+@keyframes logoPulse {
+  0%, 100% { box-shadow: 0 8px 32px rgba(59, 130, 246, 0.4); }
+  50% { box-shadow: 0 8px 48px rgba(139, 92, 246, 0.6); }
+}
+.login-title { font-size: 28px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; }
+.login-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; letter-spacing: 0.5px; }
+.form-group { margin-bottom: 20px; }
+.form-label { display: block; font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-bottom: 8px; }
+.form-input {
+  width: 100%; padding: 12px 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 14px; font-family: 'Inter', sans-serif;
+  transition: var(--transition);
+  outline: none;
+}
+.form-input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.15); background: rgba(59,130,246,0.05); }
+.form-input::placeholder { color: var(--text-muted); }
+.btn-login {
+  width: 100%; padding: 14px;
+  background: var(--gradient-1);
+  border: none; border-radius: 10px;
+  color: white; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: var(--transition);
+  font-family: 'Inter', sans-serif;
+  margin-top: 8px;
+  box-shadow: 0 4px 20px rgba(59,130,246,0.4);
+}
+.btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(59,130,246,0.5); }
+.btn-login:active { transform: translateY(0); }
+.demo-creds {
+  margin-top: 24px; padding: 16px;
+  background: rgba(59,130,246,0.08);
+  border: 1px solid rgba(59,130,246,0.2);
+  border-radius: 10px;
+  font-size: 12px; color: var(--text-secondary);
+}
+.demo-creds strong { color: var(--accent-blue); }
+/* ===== MAIN APP LAYOUT ===== */
+#mainApp { display: none; min-height: 100vh; }
+.app-layout { display: flex; min-height: 100vh; }
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  position: fixed; top: 0; left: 0; bottom: 0;
+  z-index: 100; transition: var(--transition);
+  overflow: hidden;
+}
+.sidebar.collapsed { width: 72px; }
+.sidebar-header {
+  padding: 20px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+  min-height: var(--header-height);
+}
+.sidebar-logo {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--gradient-1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 900; color: white;
+  flex-shrink: 0;
+}
+.sidebar-brand { overflow: hidden; white-space: nowrap; }
+.sidebar-brand-name { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+.sidebar-brand-sub { font-size: 10px; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; }
+.sidebar-nav { flex: 1; padding: 16px 8px; overflow-y: auto; }
+.nav-section-label {
+  font-size: 10px; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 1px;
+  padding: 8px 12px 4px; white-space: nowrap; overflow: hidden;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: 10px;
+  cursor: pointer; transition: var(--transition);
+  margin-bottom: 2px; white-space: nowrap;
+  color: var(--text-secondary); font-size: 14px; font-weight: 500;
+  position: relative;
+}
+.nav-item:hover { background: rgba(59,130,246,0.1); color: var(--text-primary); }
+.nav-item.active {
+  background: rgba(59,130,246,0.15);
+  color: var(--accent-blue);
+}
+.nav-item.active::before {
+  content: ''; position: absolute; left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 3px; height: 20px; background: var(--accent-blue);
+  border-radius: 0 3px 3px 0;
+}
+.nav-item i { width: 20px; text-align: center; font-size: 15px; flex-shrink: 0; }
+.nav-item span { overflow: hidden; transition: var(--transition); }
+.sidebar.collapsed .nav-item span,
+.sidebar.collapsed .nav-section-label,
+.sidebar.collapsed .sidebar-brand { opacity: 0; width: 0; }
+.sidebar-footer {
+  padding: 16px 8px;
+  border-top: 1px solid var(--border);
+}
+.sidebar-user {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 10px;
+  margin-bottom: 4px;
+}
+.sidebar-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--gradient-1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: white; flex-shrink: 0;
+}
+.sidebar-user-info { overflow: hidden; }
+.sidebar-user-name { font-size: 13px; font-weight: 600; color: var(--text-primary); white-space: nowrap; }
+.sidebar-user-role { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+.btn-logout {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 10px;
+  cursor: pointer; transition: var(--transition);
+  color: var(--accent-red); font-size: 14px; font-weight: 500;
+  background: none; border: none; width: 100%; font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+}
+.btn-logout:hover { background: rgba(239,68,68,0.1); }
+.btn-logout i { width: 20px; text-align: center; flex-shrink: 0; }
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  margin-left: var(--sidebar-width);
+  flex: 1; display: flex; flex-direction: column;
+  min-height: 100vh; transition: var(--transition);
+}
+.main-content.expanded { margin-left: 72px; }
+
+/* ===== HEADER ===== */
+.header {
+  height: var(--header-height);
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 24px; gap: 16px;
+  position: sticky; top: 0; z-index: 50;
+}
+.header-toggle {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: none; border: 1px solid var(--border);
+  color: var(--text-secondary); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition); flex-shrink: 0;
+}
+.header-toggle:hover { background: var(--bg-card); color: var(--text-primary); }
+.header-title { font-size: 18px; font-weight: 700; color: var(--text-primary); flex: 1; }
+.header-search {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 8px 14px;
+  width: 240px; transition: var(--transition);
+}
+.header-search:focus-within { border-color: var(--accent-blue); width: 280px; }
+.header-search i { color: var(--text-muted); font-size: 13px; }
+.header-search input {
+  background: none; border: none; outline: none;
+  color: var(--text-primary); font-size: 13px;
+  font-family: 'Inter', sans-serif; width: 100%;
+}
+.header-search input::placeholder { color: var(--text-muted); }
+.header-actions { display: flex; align-items: center; gap: 8px; }
+.header-btn {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text-secondary); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition); position: relative;
+}
+.header-btn:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+.notif-badge {
+  position: absolute; top: -4px; right: -4px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--accent-red); color: white;
+  font-size: 9px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--bg-secondary);
+}
+.header-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--gradient-1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: white; cursor: pointer;
+}
+/* ===== PAGE CONTENT ===== */
+.page-content { padding: 24px; flex: 1; }
+.page { display: none; animation: pageIn 0.4s ease; }
+.page.active { display: block; }
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.page-header { margin-bottom: 24px; }
+.page-header h1 { font-size: 24px; font-weight: 800; color: var(--text-primary); }
+.page-header p { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
+
+/* ===== KPI CARDS ===== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px; margin-bottom: 24px;
+}
+.kpi-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px;
+  transition: var(--transition); position: relative; overflow: hidden;
+}
+.kpi-card:hover { background: var(--bg-card-hover); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.kpi-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.kpi-card.blue::before { background: var(--gradient-2); }
+.kpi-card.purple::before { background: var(--gradient-1); }
+.kpi-card.cyan::before { background: linear-gradient(90deg, #06b6d4, #10b981); }
+.kpi-card.green::before { background: linear-gradient(90deg, #10b981, #84cc16); }
+.kpi-card.orange::before { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+.kpi-card.pink::before { background: linear-gradient(90deg, #ec4899, #8b5cf6); }
+.kpi-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+.kpi-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+.kpi-card.blue .kpi-icon { background: rgba(59,130,246,0.15); color: var(--accent-blue); }
+.kpi-card.purple .kpi-icon { background: rgba(139,92,246,0.15); color: var(--accent-purple); }
+.kpi-card.cyan .kpi-icon { background: rgba(6,182,212,0.15); color: var(--accent-cyan); }
+.kpi-card.green .kpi-icon { background: rgba(16,185,129,0.15); color: var(--accent-green); }
+.kpi-card.orange .kpi-icon { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+.kpi-card.pink .kpi-icon { background: rgba(236,72,153,0.15); color: var(--accent-pink); }
+.kpi-badge {
+  font-size: 11px; font-weight: 600; padding: 3px 8px;
+  border-radius: 20px; display: flex; align-items: center; gap: 3px;
+}
+.kpi-badge.up { background: rgba(16,185,129,0.15); color: var(--accent-green); }
+.kpi-badge.down { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+.kpi-value { font-size: 26px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; }
+.kpi-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+
+/* ===== CHART CARDS ===== */
+.charts-grid { display: grid; gap: 16px; margin-bottom: 24px; }
+.charts-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.charts-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.charts-grid-1-2 { grid-template-columns: 1fr 2fr; }
+.charts-grid-2-1 { grid-template-columns: 2fr 1fr; }
+.chart-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px;
+  transition: var(--transition);
+}
+.chart-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+.chart-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.chart-title { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+.chart-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.chart-actions { display: flex; gap: 6px; }
+.chart-btn {
+  padding: 5px 10px; border-radius: 6px;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  color: var(--text-secondary); font-size: 11px; font-weight: 500;
+  cursor: pointer; transition: var(--transition); font-family: 'Inter', sans-serif;
+}
+.chart-btn:hover, .chart-btn.active { background: rgba(59,130,246,0.15); color: var(--accent-blue); border-color: rgba(59,130,246,0.3); }
+.chart-container { position: relative; }
+.chart-container canvas { max-height: 280px; }
+
+/* ===== TABLES ===== */
+.table-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden;
+  margin-bottom: 24px;
+}
+.table-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.table-title { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+.table-wrapper { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.02);
+  font-size: 11px; font-weight: 600;
+  color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;
+  text-align: left; border-bottom: 1px solid var(--border);
+  cursor: pointer; white-space: nowrap;
+}
+thead th:hover { color: var(--text-primary); }
+tbody tr { border-bottom: 1px solid rgba(255,255,255,0.03); transition: var(--transition); }
+tbody tr:hover { background: rgba(59,130,246,0.04); }
+tbody td { padding: 12px 16px; font-size: 13px; color: var(--text-secondary); white-space: nowrap; }
+tbody td:first-child { color: var(--text-primary); font-weight: 500; }
+/* ===== BADGES & TAGS ===== */
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 600; white-space: nowrap;
+}
+.badge-champions { background: rgba(16,185,129,0.15); color: #10b981; }
+.badge-loyal { background: rgba(59,130,246,0.15); color: #3b82f6; }
+.badge-potential { background: rgba(6,182,212,0.15); color: #06b6d4; }
+.badge-new { background: rgba(139,92,246,0.15); color: #8b5cf6; }
+.badge-promising { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.badge-hibernating { background: rgba(249,115,22,0.15); color: #f97316; }
+.badge-atrisk { background: rgba(239,68,68,0.15); color: #ef4444; }
+.badge-lost { background: rgba(100,116,139,0.15); color: #64748b; }
+.badge-active { background: rgba(16,185,129,0.15); color: #10b981; }
+.badge-inactive { background: rgba(100,116,139,0.15); color: #64748b; }
+.badge-completed { background: rgba(16,185,129,0.15); color: #10b981; }
+.badge-pending { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.badge-cancelled { background: rgba(239,68,68,0.15); color: #ef4444; }
+
+/* ===== NOTIFICATIONS DROPDOWN ===== */
+.notif-dropdown {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  width: 320px; background: var(--bg-card);
+  border: 1px solid var(--border); border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  z-index: 200; display: none;
+  animation: dropIn 0.2s ease;
+}
+.notif-dropdown.open { display: block; }
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.notif-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.notif-header span { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+.notif-header a { font-size: 12px; color: var(--accent-blue); cursor: pointer; }
+.notif-item { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.03); display: flex; gap: 10px; cursor: pointer; transition: var(--transition); }
+.notif-item:hover { background: rgba(59,130,246,0.05); }
+.notif-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+.notif-text { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
+.notif-time { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+/* ===== AI INSIGHTS PANEL ===== */
+.insights-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px;
+  margin-bottom: 24px;
+}
+.insights-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.insights-header h3 { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+.ai-badge {
+  padding: 3px 8px; border-radius: 6px;
+  background: var(--gradient-1); color: white;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+}
+.insight-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px; border-radius: 10px;
+  margin-bottom: 6px; transition: var(--transition);
+  border: 1px solid transparent;
+}
+.insight-item:hover { background: rgba(59,130,246,0.05); border-color: rgba(59,130,246,0.1); }
+.insight-text { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+
+/* ===== RFM PAGE ===== */
+.rfm-score-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+.rfm-score-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px; text-align: center;
+}
+.rfm-score-icon { font-size: 32px; margin-bottom: 12px; }
+.rfm-score-title { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+.rfm-score-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+.segment-cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.segment-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 16px; transition: var(--transition);
+  position: relative; overflow: hidden;
+}
+.segment-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.segment-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.segment-card-name { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+.segment-card-count { font-size: 22px; font-weight: 800; color: var(--text-primary); }
+.segment-card-label { font-size: 11px; color: var(--text-muted); }
+.segment-card-revenue { font-size: 13px; color: var(--text-secondary); margin-top: 8px; }
+.segment-card-bar { height: 4px; border-radius: 2px; margin-top: 12px; background: var(--border); overflow: hidden; }
+.segment-card-bar-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+
+/* ===== COHORT HEATMAP ===== */
+.cohort-table-wrapper { overflow-x: auto; }
+.cohort-table { border-collapse: collapse; width: 100%; font-size: 12px; }
+.cohort-table th, .cohort-table td {
+  padding: 8px 10px; text-align: center;
+  border: 1px solid var(--border); white-space: nowrap;
+}
+.cohort-table th { background: var(--bg-secondary); color: var(--text-muted); font-weight: 600; font-size: 11px; }
+.cohort-table td { font-weight: 600; color: white; }
+.cohort-table td.cohort-label { background: var(--bg-secondary); color: var(--text-secondary); text-align: left; font-weight: 500; }
+
+/* ===== MARKET BASKET ===== */
+.product-pairs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+.product-pair-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 16px; transition: var(--transition);
+}
+.product-pair-card:hover { background: var(--bg-card-hover); }
+.product-pair-items { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.product-tag {
+  padding: 4px 10px; border-radius: 6px;
+  background: rgba(59,130,246,0.1); color: var(--accent-blue);
+  font-size: 12px; font-weight: 600;
+}
+.product-pair-arrow { color: var(--text-muted); font-size: 12px; }
+.product-pair-metrics { display: flex; gap: 12px; }
+.pair-metric { text-align: center; }
+.pair-metric-value { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+.pair-metric-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+
+/* ===== SETTINGS PAGE ===== */
+.settings-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.settings-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 24px;
+}
+.settings-card h3 { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.settings-card h3 i { color: var(--accent-blue); }
+.settings-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.settings-row:last-child { border-bottom: none; }
+.settings-label { font-size: 13px; color: var(--text-secondary); }
+.toggle-switch { position: relative; width: 40px; height: 22px; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute; cursor: pointer; inset: 0;
+  background: var(--border); border-radius: 22px; transition: var(--transition);
+}
+.toggle-slider:before {
+  content: ''; position: absolute;
+  width: 16px; height: 16px; left: 3px; bottom: 3px;
+  background: white; border-radius: 50%; transition: var(--transition);
+}
+.toggle-switch input:checked + .toggle-slider { background: var(--accent-blue); }
+.toggle-switch input:checked + .toggle-slider:before { transform: translateX(18px); }
+/* ===== REPORTS PAGE ===== */
+.reports-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.report-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px; transition: var(--transition);
+}
+.report-card:hover { background: var(--bg-card-hover); }
+.report-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--gradient-1); display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; margin-bottom: 12px; }
+.report-title { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+.report-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px; }
+.report-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 14px; }
+.report-actions { display: flex; gap: 8px; }
+.btn-report {
+  flex: 1; padding: 8px; border-radius: 8px;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  transition: var(--transition); font-family: 'Inter', sans-serif;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+}
+.btn-pdf { background: rgba(239,68,68,0.1); color: var(--accent-red); border: 1px solid rgba(239,68,68,0.2); }
+.btn-pdf:hover { background: rgba(239,68,68,0.2); }
+.btn-csv { background: rgba(16,185,129,0.1); color: var(--accent-green); border: 1px solid rgba(16,185,129,0.2); }
+.btn-csv:hover { background: rgba(16,185,129,0.2); }
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+  display: none; align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 20px; width: 90%; max-width: 700px;
+  max-height: 85vh; overflow-y: auto;
+  animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+.modal-header {
+  padding: 20px 24px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; background: var(--bg-card); z-index: 1;
+}
+.modal-title { font-size: 17px; font-weight: 700; color: var(--text-primary); }
+.modal-close {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  color: var(--text-secondary); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+}
+.modal-close:hover { background: rgba(239,68,68,0.1); color: var(--accent-red); }
+.modal-body { padding: 24px; }
+.modal-profile-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+  padding: 16px; background: var(--bg-secondary); border-radius: 12px;
+}
+.modal-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--gradient-1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 700; color: white; flex-shrink: 0;
+}
+.modal-customer-name { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+.modal-customer-id { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.modal-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+.modal-metric { background: var(--bg-secondary); border-radius: 10px; padding: 12px; text-align: center; }
+.modal-metric-value { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+.modal-metric-label { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+/* ===== PAGINATION ===== */
+.pagination { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-top: 1px solid var(--border); }
+.pagination-info { font-size: 13px; color: var(--text-muted); }
+.pagination-controls { display: flex; gap: 4px; }
+.page-btn {
+  width: 32px; height: 32px; border-radius: 6px;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  color: var(--text-secondary); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 500; transition: var(--transition);
+  font-family: 'Inter', sans-serif;
+}
+.page-btn:hover, .page-btn.active { background: rgba(59,130,246,0.15); color: var(--accent-blue); border-color: rgba(59,130,246,0.3); }
+
+/* ===== FILTER BAR ===== */
+.filter-bar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px; background: var(--bg-card);
+  border: 1px solid var(--border); border-radius: 16px;
+  margin-bottom: 16px; flex-wrap: wrap;
+}
+.filter-select {
+  padding: 8px 12px; border-radius: 8px;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  color: var(--text-primary); font-size: 13px;
+  font-family: 'Inter', sans-serif; outline: none; cursor: pointer;
+}
+.filter-select:focus { border-color: var(--accent-blue); }
+.filter-input {
+  padding: 8px 12px; border-radius: 8px;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  color: var(--text-primary); font-size: 13px;
+  font-family: 'Inter', sans-serif; outline: none;
+}
+.filter-input:focus { border-color: var(--accent-blue); }
+.btn-primary {
+  padding: 8px 16px; border-radius: 8px;
+  background: var(--gradient-1); border: none;
+  color: white; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: var(--transition);
+  font-family: 'Inter', sans-serif;
+}
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+/* ===== LOADING SPINNER ===== */
+.spinner {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent-blue);
+  animation: spin 0.8s linear infinite;
+  margin: 40px auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== MINI STATS ===== */
+.mini-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+.mini-stat {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px; text-align: center;
+}
+.mini-stat-value { font-size: 20px; font-weight: 800; color: var(--text-primary); }
+.mini-stat-label { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+/* ===== AFFINITY HEATMAP ===== */
+.affinity-table { border-collapse: collapse; width: 100%; }
+.affinity-table th, .affinity-table td { padding: 10px 14px; text-align: center; border: 1px solid var(--border); font-size: 12px; }
+.affinity-table th { background: var(--bg-secondary); color: var(--text-muted); font-weight: 600; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .segment-cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .charts-grid-2 { grid-template-columns: 1fr; }
+  .charts-grid-1-2, .charts-grid-2-1 { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.mobile-open { transform: translateX(0); }
+  .main-content { margin-left: 0; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .rfm-score-cards { grid-template-columns: 1fr; }
+  .segment-cards-grid { grid-template-columns: 1fr; }
+  .settings-grid { grid-template-columns: 1fr; }
+  .modal-metrics { grid-template-columns: repeat(2, 1fr); }
+  .product-pairs-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN PAGE ===== -->
+<div id="loginPage">
+  <div class="login-bg-animation">
+    <div class="login-orb"></div>
+    <div class="login-orb"></div>
+    <div class="login-orb"></div>
+  </div>
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-circle">C360</div>
+      <div class="login-title">Consumer360</div>
+      <div class="login-subtitle">Retail Intelligence Platform</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email Address</label>
+      <input type="email" id="loginEmail" class="form-input" value="admin@consumer360.com" placeholder="Enter your email">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" id="loginPassword" class="form-input" value="admin123" placeholder="Enter your password">
+    </div>
+    <button class="btn-login" onclick="login()">
+      <i class="fas fa-sign-in-alt" style="margin-right:8px"></i>Sign In
+    </button>
+    <div class="demo-creds">
+      <div style="font-weight:600;margin-bottom:6px;color:var(--text-secondary)"><i class="fas fa-info-circle" style="margin-right:5px"></i>Demo Credentials</div>
+      <div>Email: <strong>admin@consumer360.com</strong></div>
+      <div style="margin-top:3px">Password: <strong>admin123</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="mainApp">
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">C360</div>
+        <div class="sidebar-brand">
+          <div class="sidebar-brand-name">Consumer360</div>
+          <div class="sidebar-brand-sub">Retail Intelligence</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Analytics</div>
+        <div class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard">
+          <i class="fas fa-chart-line"></i><span>Dashboard</span>
+        </div>
+        <div class="nav-item" onclick="showPage('rfm')" id="nav-rfm">
+          <i class="fas fa-users-gear"></i><span>RFM Analysis</span>
+        </div>
+        <div class="nav-item" onclick="showPage('customers')" id="nav-customers">
+          <i class="fas fa-user-chart"></i><span>Customer Analytics</span>
+        </div>
+        <div class="nav-item" onclick="showPage('cohort')" id="nav-cohort">
+          <i class="fas fa-table-cells"></i><span>Cohort Analysis</span>
+        </div>
+        <div class="nav-item" onclick="showPage('basket')" id="nav-basket">
+          <i class="fas fa-basket-shopping"></i><span>Market Basket</span>
+        </div>
+        <div class="nav-section-label" style="margin-top:8px">Management</div>
+        <div class="nav-item" onclick="showPage('reports')" id="nav-reports">
+          <i class="fas fa-file-chart-column"></i><span>Reports</span>
+        </div>
+        <div class="nav-item" onclick="showPage('settings')" id="nav-settings">
+          <i class="fas fa-gear"></i><span>Settings</span>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar">AD</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">Admin User</div>
+            <div class="sidebar-user-role">Super Administrator</div>
+          </div>
+        </div>
+        <button class="btn-logout" onclick="logout()">
+          <i class="fas fa-right-from-bracket"></i><span>Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content" id="mainContent">
+
+      <!-- HEADER -->
+      <header class="header">
+        <button class="header-toggle" onclick="toggleSidebar()">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="header-title" id="headerTitle">Dashboard</div>
+        <div class="header-search">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search customers, segments...">
+        </div>
+        <div class="header-actions">
+          <div style="position:relative">
+            <button class="header-btn" onclick="toggleNotifications()">
+              <i class="fas fa-bell"></i>
+              <span class="notif-badge">3</span>
+            </button>
+            <div class="notif-dropdown" id="notifDropdown">
+              <div class="notif-header"><span>Notifications</span><a onclick="toggleNotifications()">Mark all read</a></div>
+              <div class="notif-item">
+                <div class="notif-dot" style="background:#ef4444"></div>
+                <div><div class="notif-text">At Risk segment increased by 8.3% this month</div><div class="notif-time">2 hours ago</div></div>
+              </div>
+              <div class="notif-item">
+                <div class="notif-dot" style="background:#10b981"></div>
+                <div><div class="notif-text">Champions revenue up 15.2% — loyalty program performing well</div><div class="notif-time">5 hours ago</div></div>
+              </div>
+              <div class="notif-item">
+                <div class="notif-dot" style="background:#f59e0b"></div>
+                <div><div class="notif-text">Monthly report is ready for download</div><div class="notif-time">1 day ago</div></div>
+              </div>
+              <div class="notif-item">
+                <div class="notif-dot" style="background:#3b82f6"></div>
+                <div><div class="notif-text">New customer acquisition up 12% this week</div><div class="notif-time">2 days ago</div></div>
+              </div>
+              <div class="notif-item">
+                <div class="notif-dot" style="background:#8b5cf6"></div>
+                <div><div class="notif-text">Data refresh completed successfully</div><div class="notif-time">3 days ago</div></div>
+              </div>
+            </div>
+          </div>
+          <button class="header-btn" onclick="toggleTheme()" title="Toggle theme">
+            <i class="fas fa-moon" id="themeIcon"></i>
+          </button>
+          <div class="header-avatar" title="Admin User">AD</div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <div class="page-content">
+
+        <!-- ===== DASHBOARD PAGE ===== -->
+        <div class="page active" id="page-dashboard">
+          <div class="page-header">
+            <h1>Analytics Dashboard</h1>
+            <p>Real-time overview of your retail performance metrics</p>
+          </div>
+
+          <!-- AI Insights -->
+          <div class="insights-panel">
+            <div class="insights-header">
+              <i class="fas fa-robot" style="color:var(--accent-purple)"></i>
+              <h3>AI-Powered Insights</h3>
+              <span class="ai-badge">AI</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:6px">
+              <div class="insight-item"><span class="insight-text">🔴 At Risk segment increased by 8.3% this month — consider re-engagement campaign</span></div>
+              <div class="insight-item"><span class="insight-text">🟢 Champions segment revenue up 15.2% — loyalty program performing well</span></div>
+              <div class="insight-item"><span class="insight-text">🟡 Bundle Electronics + Accessories shows 3.2x lift — recommend cross-sell</span></div>
+              <div class="insight-item"><span class="insight-text">🔵 New customer acquisition up 12% — onboarding flow optimization recommended</span></div>
+              <div class="insight-item"><span class="insight-text">⚠️ Hibernating customers: 2,198 customers inactive 90+ days — win-back needed</span></div>
+            </div>
+          </div>
+
+          <!-- KPI Cards -->
+          <div class="kpi-grid">
+            <div class="kpi-card blue">
+              <div class="kpi-header">
+                <div class="kpi-icon"><i class="fas fa-dollar-sign"></i></div>
+                <span class="kpi-badge up"><i class="fas fa-arrow-up"></i>12.5%</span>
+              </div>
+              <div class="kpi-value">$2,847,392</div>
+              <div class="kpi-label">Total Revenue</div>
+            </div>
+            <div class="kpi-card purple">
+              <div class="kpi-header">
+                <div class="kpi-icon"><i class="fas fa-users"></i></div>
+                <span class="kpi-badge up"><i class="fas fa-arrow-up"></i>8.3%</span>
+              </div>
+              <div class="kpi-value">15,847</div>
+              <div class="kpi-label">Total Customers</div>
+            </div>
+            <div class="kpi-card cyan">
+              <div class="kpi-header">
+                <div class="kpi-icon"><i class="fas fa-user-check"></i></div>
+                <span class="kpi-badge up"><i class="fas fa-arrow-up"></i>5.1%</span>
+              </div>
+              <div class="kpi-value">9,234</div>
+              <div class="kpi-label">Active Customers</div>
+            </div>
+            <div class="kpi-card green">
+              <div class="kpi-header">
+                <div class="kpi-icon"><i class="fas fa-arrow-rotate-right"></i></div>
+                <span class="kpi-badge up"><i class="fas fa-arrow-up"></i>2.1%</span>
+              </div>
+              <div class="kpi-value">68.4%</div>
+              <div class="kpi-label">Retention Rate</div>
+            </div>
+            <div class="kpi-card orange">
+              <div class="kpi-header">
+                <div class="kpi-icon"><i class="fas fa-receipt"></i></div>
+                <span class="kpi-badge up"><i class="fas fa-arrow-up"></i>3.7%</span>
+              </div>
+              <div class="kpi-value">$179.60</div>
+              <div class="kpi-label">Avg Order Value</div>
+            </div>
+            <div class="kpi-card pink">
+              <div class="kpi-header">
+                <div class="kpi-icon"><i class="fas fa-gem"></i></div>
+                <span class="kpi-badge up"><i class="fas fa-arrow-up"></i>15.2%</span>
+              </div>
+              <div class="kpi-value">$1,247</div>
+              <div class="kpi-label">Customer LTV</div>
+            </div>
+          </div>
+
+          <!-- Charts Row 1 -->
+          <div class="charts-grid charts-grid-2">
+            <div class="chart-card">
+              <div class="chart-header">
+                <div>
+                  <div class="chart-title">Revenue Trend 2024</div>
+                  <div class="chart-subtitle">Monthly revenue performance</div>
+                </div>
+                <div class="chart-actions">
+                  <button class="chart-btn active">Monthly</button>
+                  <button class="chart-btn">Quarterly</button>
+                </div>
+              </div>
+              <div class="chart-container"><canvas id="revenueChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-header">
+                <div>
+                  <div class="chart-title">Customer Segments</div>
+                  <div class="chart-subtitle">RFM segment distribution</div>
+                </div>
+              </div>
+              <div class="chart-container"><canvas id="segmentDonutChart"></canvas></div>
+            </div>
+          </div>
+
+          <!-- Charts Row 2 -->
+          <div class="charts-grid charts-grid-2">
+            <div class="chart-card">
+              <div class="chart-header">
+                <div>
+                  <div class="chart-title">Sales by Category</div>
+                  <div class="chart-subtitle">Last 6 months breakdown</div>
+                </div>
+              </div>
+              <div class="chart-container"><canvas id="categoryChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-header">
+                <div>
+                  <div class="chart-title">Customer Growth</div>
+                  <div class="chart-subtitle">New vs returning customers</div>
+                </div>
+              </div>
+              <div class="chart-container"><canvas id="growthChart"></canvas></div>
+            </div>
+          </div>
+
+          <!-- Charts Row 3 -->
+          <div class="charts-grid charts-grid-2">
+            <div class="chart-card">
+              <div class="chart-header">
+                <div>
+                  <div class="chart-title">Top 10 Products</div>
+                  <div class="chart-subtitle">By revenue contribution</div>
+                </div>
+              </div>
+              <div class="chart-container"><canvas id="topProductsChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-header">
+                <div>
+                  <div class="chart-title">Recent Transactions</div>
+                  <div class="chart-subtitle">Last 10 orders</div>
+                </div>
+              </div>
+              <div class="table-wrapper">
+                <table id="recentTransTable">
+                  <thead><tr>
+                    <th>Customer</th><th>Amount</th><th>Segment</th><th>Date</th><th>Status</th>
+                  </tr></thead>
+                  <tbody id="recentTransBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== RFM SEGMENTATION PAGE ===== -->
+        <div class="page" id="page-rfm">
+          <div class="page-header">
+            <h1>RFM Analysis Engine</h1>
+            <p>Recency, Frequency, Monetary segmentation of your customer base</p>
+          </div>
+
+          <!-- RFM Score Cards -->
+          <div class="rfm-score-cards">
+            <div class="rfm-score-card">
+              <div class="rfm-score-icon">📅</div>
+              <div class="rfm-score-title" style="color:var(--accent-blue)">Recency (R)</div>
+              <div class="rfm-score-desc">How recently a customer made a purchase. Customers who bought recently are more likely to buy again. Scored 1–5 (5 = most recent).</div>
+            </div>
+            <div class="rfm-score-card">
+              <div class="rfm-score-icon">🔄</div>
+              <div class="rfm-score-title" style="color:var(--accent-purple)">Frequency (F)</div>
+              <div class="rfm-score-desc">How often a customer makes purchases. Frequent buyers show strong engagement and brand loyalty. Scored 1–5 (5 = most frequent).</div>
+            </div>
+            <div class="rfm-score-card">
+              <div class="rfm-score-icon">💰</div>
+              <div class="rfm-score-title" style="color:var(--accent-green)">Monetary (M)</div>
+              <div class="rfm-score-desc">How much money a customer has spent. High-value customers contribute most to revenue. Scored 1–5 (5 = highest spend).</div>
+            </div>
+          </div>
+
+          <!-- Segment Summary Table + Donut -->
+          <div class="charts-grid charts-grid-2-1">
+            <div class="table-card" style="margin-bottom:0">
+              <div class="table-header">
+                <span class="table-title">Segment Summary</span>
+                <button class="btn-primary" onclick="exportSegmentCSV()"><i class="fas fa-download" style="margin-right:5px"></i>Export</button>
+              </div>
+              <div class="table-wrapper">
+                <table>
+                  <thead><tr>
+                    <th>Segment</th><th>Count</th><th>Avg RFM</th><th>Revenue</th><th>Avg Order</th><th>Action</th>
+                  </tr></thead>
+                  <tbody>
+                    <tr><td><span class="badge badge-champions">Champions</span></td><td>2,847</td><td>4.8</td><td>$892,450</td><td>$313</td><td><button class="chart-btn" style="font-size:11px">Campaign</button></td></tr>
+                    <tr><td><span class="badge badge-loyal">Loyal Customers</span></td><td>3,156</td><td>4.2</td><td>$756,230</td><td>$240</td><td><button class="chart-btn" style="font-size:11px">Reward</button></td></tr>
+                    <tr><td><span class="badge badge-potential">Potential Loyalists</span></td><td>2,234</td><td>3.6</td><td>$445,670</td><td>$199</td><td><button class="chart-btn" style="font-size:11px">Nurture</button></td></tr>
+                    <tr><td><span class="badge badge-new">New Customers</span></td><td>1,876</td><td>3.1</td><td>$234,560</td><td>$125</td><td><button class="chart-btn" style="font-size:11px">Onboard</button></td></tr>
+                    <tr><td><span class="badge badge-promising">Promising</span></td><td>1,543</td><td>2.8</td><td>$189,340</td><td>$123</td><td><button class="chart-btn" style="font-size:11px">Engage</button></td></tr>
+                    <tr><td><span class="badge badge-hibernating">Hibernating</span></td><td>2,198</td><td>2.2</td><td>$156,780</td><td>$71</td><td><button class="chart-btn" style="font-size:11px">Re-activate</button></td></tr>
+                    <tr><td><span class="badge badge-atrisk">At Risk</span></td><td>1,456</td><td>1.8</td><td>$98,450</td><td>$68</td><td><button class="chart-btn" style="font-size:11px">Win-back</button></td></tr>
+                    <tr><td><span class="badge badge-lost">Lost</span></td><td>537</td><td>1.2</td><td>$23,910</td><td>$45</td><td><button class="chart-btn" style="font-size:11px">Survey</button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-header">
+                <div>
+                  <div class="chart-title">Segment Distribution</div>
+                  <div class="chart-subtitle">By customer count</div>
+                </div>
+              </div>
+              <div class="chart-container"><canvas id="rfmDonutChart"></canvas></div>
+            </div>
+          </div>
+
+          <!-- RFM Score Distribution Charts -->
+          <div class="charts-grid charts-grid-3" style="margin-top:16px">
+            <div class="chart-card">
+              <div class="chart-header"><div class="chart-title">Recency Distribution</div></div>
+              <div class="chart-container"><canvas id="recencyChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-header"><div class="chart-title">Frequency Distribution</div></div>
+              <div class="chart-container"><canvas id="frequencyChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-header"><div class="chart-title">Monetary Distribution</div></div>
+              <div class="chart-container"><canvas id="monetaryChart"></canvas></div>
+            </div>
+          </div>
+
+          <!-- Segment Detail Cards -->
+          <div style="margin-top:16px">
+            <h3 style="font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:12px">Segment Detail Cards</h3>
+            <div class="segment-cards-grid" id="segmentCardsGrid"></div>
+          </div>
+        </div>
+
+        <!-- ===== CUSTOMER ANALYTICS PAGE ===== -->
+        <div class="page" id="page-customers">
+          <div class="page-header">
+            <h1>Customer Analytics</h1>
+            <p>Detailed customer profiles with RFM scoring and behavioral insights</p>
+          </div>
+
+          <!-- Filter Bar -->
+          <div class="filter-bar">
+            <select class="filter-select" id="segmentFilter" onchange="filterCustomers()">
+              <option value="">All Segments</option>
+              <option value="Champions">Champions</option>
+              <option value="Loyal Customers">Loyal Customers</option>
+              <option value="Potential Loyalists">Potential Loyalists</option>
+              <option value="New Customers">New Customers</option>
+              <option value="Promising">Promising</option>
+              <option value="Hibernating">Hibernating</option>
+              <option value="At Risk">At Risk</option>
+              <option value="Lost">Lost</option>
+            </select>
+            <select class="filter-select" id="statusFilter" onchange="filterCustomers()">
+              <option value="">All Status</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+            <input type="text" class="filter-input" id="customerSearch" placeholder="Search by name or ID..." oninput="filterCustomers()" style="width:220px">
+            <button class="btn-primary" onclick="filterCustomers()"><i class="fas fa-filter" style="margin-right:5px"></i>Apply</button>
+            <button class="chart-btn" onclick="exportCustomerCSV()"><i class="fas fa-download" style="margin-right:5px"></i>Export CSV</button>
+          </div>
+
+          <!-- Mini Stats -->
+          <div class="mini-stats">
+            <div class="mini-stat">
+              <div class="mini-stat-value" style="color:var(--accent-blue)">15,847</div>
+              <div class="mini-stat-label">Total Customers</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-stat-value" style="color:var(--accent-green)">9,234</div>
+              <div class="mini-stat-label">Active</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-stat-value" style="color:var(--accent-orange)">$179.60</div>
+              <div class="mini-stat-label">Avg Order Value</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-stat-value" style="color:var(--accent-purple)">$1,247</div>
+              <div class="mini-stat-label">Avg LTV</div>
+            </div>
+          </div>
+
+          <!-- Customer Table -->
+          <div class="table-card">
+            <div class="table-header">
+              <span class="table-title">Customer Profiles</span>
+              <span style="font-size:13px;color:var(--text-muted)" id="customerCount">Showing 20 customers</span>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr>
+                  <th onclick="sortCustomers('id')">ID <i class="fas fa-sort" style="font-size:9px"></i></th>
+                  <th onclick="sortCustomers('name')">Name <i class="fas fa-sort" style="font-size:9px"></i></th>
+                  <th onclick="sortCustomers('segment')">Segment <i class="fas fa-sort" style="font-size:9px"></i></th>
+                  <th onclick="sortCustomers('recency')">Recency <i class="fas fa-sort" style="font-size:9px"></i></th>
+                  <th onclick="sortCustomers('frequency')">Frequency <i class="fas fa-sort" style="font-size:9px"></i></th>
+                  <th onclick="sortCustomers('monetary')">Monetary <i class="fas fa-sort" style="font-size:9px"></i></th>
+                  <th onclick="sortCustomers('rfmScore')">RFM Score <i class="fas fa-sort" style="font-size:9px"></i></th>
+                  <th onclick="sortCustomers('lastPurchase')">Last Purchase <i class="fas fa-sort" style="font-size:9px"></i></th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr></thead>
+                <tbody id="customerTableBody"></tbody>
+              </table>
+            </div>
+            <div class="pagination">
+              <div class="pagination-info" id="paginationInfo">Showing 1–20 of 20</div>
+              <div class="pagination-controls">
+                <button class="page-btn" onclick="changePage(-1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="page-btn active" id="pageNum">1</button>
+                <button class="page-btn" onclick="changePage(1)"><i class="fas fa-chevron-right"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Detail Modal -->
+        <div class="modal-overlay" id="customerModal">
+          <div class="modal">
+            <div class="modal-header">
+              <span class="modal-title">Customer Profile</span>
+              <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+          </div>
+        </div>
+
+        <!-- ===== COHORT ANALYSIS PAGE ===== -->
+        <div class="page" id="page-cohort">
+          <div class="page-header">
+            <h1>Cohort Analysis</h1>
+            <p>Track customer retention across acquisition cohorts over time</p>
+          </div>
+
+          <!-- Explanation -->
+          <div class="insights-panel" style="margin-bottom:16px">
+            <div class="insights-header">
+              <i class="fas fa-info-circle" style="color:var(--accent-cyan)"></i>
+              <h3>What is Cohort Analysis?</h3>
+            </div>
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.6">Cohort analysis groups customers by their acquisition month and tracks what percentage return in subsequent months. Month 0 = 100% (acquisition month). Green cells indicate high retention; red cells indicate churn.</p>
+          </div>
+
+          <!-- Heatmap -->
+          <div class="chart-card" style="margin-bottom:16px">
+            <div class="chart-header">
+              <div>
+                <div class="chart-title">Retention Heatmap — 2024 Cohorts</div>
+                <div class="chart-subtitle">Percentage of customers retained by month</div>
+              </div>
+              <button class="btn-primary" onclick="exportCohortCSV()"><i class="fas fa-download" style="margin-right:5px"></i>Export</button>
+            </div>
+            <div class="cohort-table-wrapper">
+              <table class="cohort-table" id="cohortTable"></table>
+            </div>
+          </div>
+
+          <!-- Cohort Charts -->
+          <div class="charts-grid charts-grid-2">
+            <div class="chart-card">
+              <div class="chart-header">
+                <div>
+                  <div class="chart-title">Retention Trend by Cohort</div>
+                  <div class="chart-subtitle">Month 1 retention comparison</div>
+                </div>
+              </div>
+              <div class="chart-container"><canvas id="cohortTrendChart"></canvas></div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-header">
+                <div>
+                  <div class="chart-title">Average Retention by Month</div>
+                  <div class="chart-subtitle">Across all 2024 cohorts</div>
+                </div>
+              </div>
+              <div class="chart-container"><canvas id="avgRetentionChart"></canvas></div>
+            </div>
+          </div>
+
+          <!-- Key Insights -->
+          <div class="charts-grid charts-grid-3" style="margin-top:0">
+            <div class="kpi-card blue" style="margin-bottom:0">
+              <div class="kpi-header"><div class="kpi-icon"><i class="fas fa-calendar-check"></i></div></div>
+              <div class="kpi-value">42.3%</div>
+              <div class="kpi-label">Avg Month-1 Retention</div>
+            </div>
+            <div class="kpi-card green" style="margin-bottom:0">
+              <div class="kpi-header"><div class="kpi-icon"><i class="fas fa-chart-line"></i></div></div>
+              <div class="kpi-value">28.7%</div>
+              <div class="kpi-label">Avg Month-3 Retention</div>
+            </div>
+            <div class="kpi-card purple" style="margin-bottom:0">
+              <div class="kpi-header"><div class="kpi-icon"><i class="fas fa-gem"></i></div></div>
+              <div class="kpi-value">18.2%</div>
+              <div class="kpi-label">Avg Month-6 Retention</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== MARKET BASKET PAGE ===== -->
+        <div class="page" id="page-basket">
+          <div class="page-header">
+            <h1>Market Basket Analysis</h1>
+            <p>Discover product associations and cross-sell opportunities using Apriori algorithm</p>
+          </div>
+
+          <!-- Explanation -->
+          <div class="insights-panel" style="margin-bottom:16px">
+            <div class="insights-header">
+              <i class="fas fa-basket-shopping" style="color:var(--accent-orange)"></i>
+              <h3>Association Rules Explained</h3>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:13px;color:var(--text-secondary)">
+              <div><strong style="color:var(--accent-blue)">Support:</strong> % of transactions containing both items</div>
+              <div><strong style="color:var(--accent-purple)">Confidence:</strong> % of A transactions that also contain B</div>
+              <div><strong style="color:var(--accent-green)">Lift:</strong> How much more likely B is purchased with A vs alone</div>
+            </div>
+          </div>
+
+          <!-- Association Rules Table -->
+          <div class="table-card" style="margin-bottom:16px">
+            <div class="table-header">
+              <span class="table-title">Top Association Rules</span>
+              <button class="btn-primary" onclick="exportBasketCSV()"><i class="fas fa-download" style="margin-right:5px"></i>Export</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr>
+                  <th>Antecedent (If bought)</th><th>Consequent (Then buys)</th>
+                  <th>Support</th><th>Confidence</th><th>Lift</th><th>Recommendation</th>
+                </tr></thead>
+                <tbody id="basketTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Frequently Bought Together -->
+          <h3 style="font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:12px">Frequently Bought Together</h3>
+          <div class="product-pairs-grid" id="productPairsGrid"></div>
+
+          <!-- Category Affinity Heatmap -->
+          <div class="charts-grid charts-grid-2" style="margin-top:0">
+            <div class="chart-card">
+              <div class="chart-header">
+                <div>
+                  <div class="chart-title">Category Affinity Matrix</div>
+                  <div class="chart-subtitle">Cross-category purchase correlation</div>
+                </div>
+              </div>
+              <div class="table-wrapper">
+                <table class="affinity-table" id="affinityTable"></table>
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-header">
+                <div>
+                  <div class="chart-title">Top Rules by Lift</div>
+                  <div class="chart-subtitle">Strongest product associations</div>
+                </div>
+              </div>
+              <div class="chart-container"><canvas id="liftChart"></canvas></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== REPORTS PAGE ===== -->
+        <div class="page" id="page-reports">
+          <div class="page-header">
+            <h1>Reports & Exports</h1>
+            <p>Generate and download comprehensive analytics reports</p>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="mini-stats" style="margin-bottom:24px">
+            <div class="mini-stat">
+              <div class="mini-stat-value" style="color:var(--accent-blue)">5</div>
+              <div class="mini-stat-label">Available Reports</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-stat-value" style="color:var(--accent-green)">Dec 2024</div>
+              <div class="mini-stat-label">Last Generated</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-stat-value" style="color:var(--accent-purple)">3</div>
+              <div class="mini-stat-label">Scheduled Reports</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-stat-value" style="color:var(--accent-orange)">Weekly</div>
+              <div class="mini-stat-label">Auto-refresh</div>
+            </div>
+          </div>
+
+          <!-- Report Cards -->
+          <div class="reports-grid">
+            <div class="report-card">
+              <div class="report-icon" style="background:var(--gradient-1)"><i class="fas fa-chart-pie"></i></div>
+              <div class="report-title">Executive Summary Report</div>
+              <div class="report-desc">High-level overview of all KPIs, revenue trends, and customer metrics for executive stakeholders.</div>
+              <div class="report-meta"><i class="fas fa-clock" style="margin-right:4px"></i>Last generated: Dec 15, 2024</div>
+              <div class="report-actions">
+                <button class="btn-report btn-pdf" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> PDF</button>
+                <button class="btn-report btn-csv" onclick="exportCSV([], 'executive-summary')"><i class="fas fa-file-csv"></i> CSV</button>
+              </div>
+            </div>
+            <div class="report-card">
+              <div class="report-icon" style="background:linear-gradient(135deg,#8b5cf6,#ec4899)"><i class="fas fa-users-gear"></i></div>
+              <div class="report-title">RFM Segmentation Report</div>
+              <div class="report-desc">Detailed breakdown of all 8 customer segments with RFM scores, revenue contribution, and recommended actions.</div>
+              <div class="report-meta"><i class="fas fa-clock" style="margin-right:4px"></i>Last generated: Dec 14, 2024</div>
+              <div class="report-actions">
+                <button class="btn-report btn-pdf" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> PDF</button>
+                <button class="btn-report btn-csv" onclick="exportSegmentCSV()"><i class="fas fa-file-csv"></i> CSV</button>
+              </div>
+            </div>
+            <div class="report-card">
+              <div class="report-icon" style="background:linear-gradient(135deg,#10b981,#06b6d4)"><i class="fas fa-arrow-rotate-right"></i></div>
+              <div class="report-title">Customer Retention Report</div>
+              <div class="report-desc">Cohort-based retention analysis showing month-over-month customer return rates across all 2024 cohorts.</div>
+              <div class="report-meta"><i class="fas fa-clock" style="margin-right:4px"></i>Last generated: Dec 13, 2024</div>
+              <div class="report-actions">
+                <button class="btn-report btn-pdf" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> PDF</button>
+                <button class="btn-report btn-csv" onclick="exportCohortCSV()"><i class="fas fa-file-csv"></i> CSV</button>
+              </div>
+            </div>
+            <div class="report-card">
+              <div class="report-icon" style="background:linear-gradient(135deg,#f59e0b,#ef4444)"><i class="fas fa-dollar-sign"></i></div>
+              <div class="report-title">Revenue Analysis Report</div>
+              <div class="report-desc">Monthly and quarterly revenue breakdown by category, segment, and product with YoY comparison.</div>
+              <div class="report-meta"><i class="fas fa-clock" style="margin-right:4px"></i>Last generated: Dec 12, 2024</div>
+              <div class="report-actions">
+                <button class="btn-report btn-pdf" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> PDF</button>
+                <button class="btn-report btn-csv" onclick="exportCSV([], 'revenue-analysis')"><i class="fas fa-file-csv"></i> CSV</button>
+              </div>
+            </div>
+            <div class="report-card">
+              <div class="report-icon" style="background:linear-gradient(135deg,#06b6d4,#8b5cf6)"><i class="fas fa-basket-shopping"></i></div>
+              <div class="report-title">Market Basket Report</div>
+              <div class="report-desc">Product association rules, frequently bought together analysis, and cross-sell opportunity matrix.</div>
+              <div class="report-meta"><i class="fas fa-clock" style="margin-right:4px"></i>Last generated: Dec 11, 2024</div>
+              <div class="report-actions">
+                <button class="btn-report btn-pdf" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> PDF</button>
+                <button class="btn-report btn-csv" onclick="exportBasketCSV()"><i class="fas fa-file-csv"></i> CSV</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scheduled Reports -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Scheduled Reports</div>
+              <button class="btn-primary"><i class="fas fa-plus" style="margin-right:5px"></i>Add Schedule</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Report Name</th><th>Frequency</th><th>Recipients</th><th>Next Run</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>
+                  <tr><td>Executive Summary</td><td>Weekly</td><td>ceo@company.com, cfo@company.com</td><td>Dec 22, 2024</td><td><span class="badge badge-active">Active</span></td><td><button class="chart-btn">Edit</button></td></tr>
+                  <tr><td>RFM Segmentation</td><td>Monthly</td><td>marketing@company.com</td><td>Jan 1, 2025</td><td><span class="badge badge-active">Active</span></td><td><button class="chart-btn">Edit</button></td></tr>
+                  <tr><td>Revenue Analysis</td><td>Quarterly</td><td>finance@company.com</td><td>Jan 1, 2025</td><td><span class="badge badge-pending">Pending</span></td><td><button class="chart-btn">Edit</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== SETTINGS PAGE ===== -->
+        <div class="page" id="page-settings">
+          <div class="page-header">
+            <h1>Settings</h1>
+            <p>Configure your Consumer360 platform preferences</p>
+          </div>
+
+          <div class="settings-grid">
+            <!-- Profile Settings -->
+            <div class="settings-card">
+              <h3><i class="fas fa-user"></i> Profile Settings</h3>
+              <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-input" value="Admin User">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" value="admin@consumer360.com">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Role</label>
+                <input type="text" class="form-input" value="Super Administrator" readonly>
+              </div>
+              <button class="btn-primary" style="width:100%">Save Profile</button>
+            </div>
+
+            <!-- Notification Preferences -->
+            <div class="settings-card">
+              <h3><i class="fas fa-bell"></i> Notification Preferences</h3>
+              <div class="settings-row">
+                <span class="settings-label">Email Notifications</span>
+                <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-row">
+                <span class="settings-label">Segment Alerts</span>
+                <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-row">
+                <span class="settings-label">Revenue Alerts</span>
+                <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-row">
+                <span class="settings-label">Weekly Digest</span>
+                <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-row">
+                <span class="settings-label">System Updates</span>
+                <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+            </div>
+
+            <!-- Theme Settings -->
+            <div class="settings-card">
+              <h3><i class="fas fa-palette"></i> Theme & Display</h3>
+              <div class="settings-row">
+                <span class="settings-label">Dark Mode</span>
+                <label class="toggle-switch"><input type="checkbox" id="darkModeToggle" checked onchange="toggleTheme()"><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-row">
+                <span class="settings-label">Compact Sidebar</span>
+                <label class="toggle-switch"><input type="checkbox" onchange="toggleSidebar()"><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-row">
+                <span class="settings-label">Animated Charts</span>
+                <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-row">
+                <span class="settings-label">Show AI Insights</span>
+                <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+            </div>
+
+            <!-- Data Refresh Settings -->
+            <div class="settings-card">
+              <h3><i class="fas fa-rotate"></i> Data Refresh</h3>
+              <div class="form-group">
+                <label class="form-label">Refresh Interval</label>
+                <select class="form-input filter-select" style="width:100%">
+                  <option>Every 15 minutes</option>
+                  <option selected>Every 30 minutes</option>
+                  <option>Every hour</option>
+                  <option>Every 6 hours</option>
+                  <option>Daily</option>
+                </select>
+              </div>
+              <div class="settings-row">
+                <span class="settings-label">Auto-refresh Dashboard</span>
+                <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div class="settings-row">
+                <span class="settings-label">Cache Results</span>
+                <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+              <button class="btn-primary" style="width:100%;margin-top:12px"><i class="fas fa-rotate" style="margin-right:5px"></i>Refresh Now</button>
+            </div>
+
+            <!-- API Configuration -->
+            <div class="settings-card">
+              <h3><i class="fas fa-code"></i> API Configuration</h3>
+              <div class="form-group">
+                <label class="form-label">API Endpoint</label>
+                <input type="text" class="form-input" value="https://api.consumer360.com/v2">
+              </div>
+              <div class="form-group">
+                <label class="form-label">API Key</label>
+                <input type="password" class="form-input" value="sk-c360-xxxxxxxxxxxxxxxxxxxx">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Timeout (seconds)</label>
+                <input type="number" class="form-input" value="30">
+              </div>
+              <button class="btn-primary" style="width:100%">Test Connection</button>
+            </div>
+
+            <!-- User Management -->
+            <div class="settings-card">
+              <h3><i class="fas fa-users-gear"></i> User Management</h3>
+              <div class="table-wrapper">
+                <table>
+                  <thead><tr><th>User</th><th>Role</th><th>Status</th><th>Action</th></tr></thead>
+                  <tbody>
+                    <tr><td>Admin User</td><td>Super Admin</td><td><span class="badge badge-active">Active</span></td><td><button class="chart-btn">Edit</button></td></tr>
+                    <tr><td>Sarah Johnson</td><td>Analyst</td><td><span class="badge badge-active">Active</span></td><td><button class="chart-btn">Edit</button></td></tr>
+                    <tr><td>Mike Chen</td><td>Viewer</td><td><span class="badge badge-active">Active</span></td><td><button class="chart-btn">Edit</button></td></tr>
+                    <tr><td>Lisa Park</td><td>Analyst</td><td><span class="badge badge-inactive">Inactive</span></td><td><button class="chart-btn">Edit</button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <button class="btn-primary" style="width:100%;margin-top:12px"><i class="fas fa-user-plus" style="margin-right:5px"></i>Add User</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end page-content -->
+    </div><!-- end main-content -->
+  </div><!-- end app-layout -->
+</div><!-- end mainApp -->
+
+<script>
+// ===== DEMO CREDENTIALS =====
+const DEMO_CREDENTIALS = { email: 'admin@consumer360.com', password: 'admin123' };
+
+// ===== SAMPLE DATA =====
+const customers = [
+  { id:'C001', name:'Emma Thompson', segment:'Champions', recency:5, frequency:12, monetary:3450, rfmScore:4.8, lastPurchase:'2024-12-10', status:'Active' },
+  { id:'C002', name:'James Wilson', segment:'Champions', recency:5, frequency:10, monetary:2980, rfmScore:4.7, lastPurchase:'2024-12-08', status:'Active' },
+  { id:'C003', name:'Sophia Martinez', segment:'Loyal Customers', recency:4, frequency:8, monetary:2100, rfmScore:4.2, lastPurchase:'2024-11-25', status:'Active' },
+  { id:'C004', name:'Oliver Brown', segment:'Loyal Customers', recency:4, frequency:7, monetary:1890, rfmScore:4.1, lastPurchase:'2024-11-20', status:'Active' },
+  { id:'C005', name:'Ava Johnson', segment:'Potential Loyalists', recency:4, frequency:5, monetary:1200, rfmScore:3.6, lastPurchase:'2024-11-15', status:'Active' },
+  { id:'C006', name:'Liam Davis', segment:'Potential Loyalists', recency:3, frequency:4, monetary:980, rfmScore:3.4, lastPurchase:'2024-11-10', status:'Active' },
+  { id:'C007', name:'Isabella Garcia', segment:'New Customers', recency:5, frequency:2, monetary:450, rfmScore:3.1, lastPurchase:'2024-12-05', status:'Active' },
+  { id:'C008', name:'Noah Anderson', segment:'New Customers', recency:5, frequency:1, monetary:320, rfmScore:2.9, lastPurchase:'2024-12-01', status:'Active' },
+  { id:'C009', name:'Mia Taylor', segment:'Promising', recency:3, frequency:3, monetary:670, rfmScore:2.8, lastPurchase:'2024-10-28', status:'Active' },
+  { id:'C010', name:'Ethan Thomas', segment:'Promising', recency:3, frequency:3, monetary:590, rfmScore:2.7, lastPurchase:'2024-10-20', status:'Active' },
+  { id:'C011', name:'Charlotte Jackson', segment:'Hibernating', recency:2, frequency:4, monetary:1100, rfmScore:2.2, lastPurchase:'2024-08-15', status:'Inactive' },
+  { id:'C012', name:'William White', segment:'Hibernating', recency:2, frequency:3, monetary:890, rfmScore:2.1, lastPurchase:'2024-08-01', status:'Inactive' },
+  { id:'C013', name:'Amelia Harris', segment:'At Risk', recency:1, frequency:5, monetary:1450, rfmScore:1.8, lastPurchase:'2024-06-20', status:'Inactive' },
+  { id:'C014', name:'Benjamin Martin', segment:'At Risk', recency:1, frequency:4, monetary:1200, rfmScore:1.7, lastPurchase:'2024-06-10', status:'Inactive' },
+  { id:'C015', name:'Harper Thompson', segment:'Lost', recency:1, frequency:2, monetary:340, rfmScore:1.2, lastPurchase:'2024-03-15', status:'Inactive' },
+  { id:'C016', name:'Lucas Moore', segment:'Champions', recency:5, frequency:11, monetary:3100, rfmScore:4.9, lastPurchase:'2024-12-12', status:'Active' },
+  { id:'C017', name:'Evelyn Clark', segment:'Loyal Customers', recency:4, frequency:9, monetary:2300, rfmScore:4.3, lastPurchase:'2024-11-28', status:'Active' },
+  { id:'C018', name:'Mason Lewis', segment:'Potential Loyalists', recency:3, frequency:5, monetary:1050, rfmScore:3.5, lastPurchase:'2024-11-05', status:'Active' },
+  { id:'C019', name:'Abigail Robinson', segment:'Promising', recency:3, frequency:2, monetary:480, rfmScore:2.6, lastPurchase:'2024-10-15', status:'Active' },
+  { id:'C020', name:'Henry Walker', segment:'Hibernating', recency:2, frequency:6, monetary:1560, rfmScore:2.3, lastPurchase:'2024-07-20', status:'Inactive' }
+];
+
+const recentTransactions = [
+  { customer:'Emma Thompson', amount:'$342.50', segment:'Champions', date:'2024-12-10', status:'Completed' },
+  { customer:'Lucas Moore', amount:'$289.00', segment:'Champions', date:'2024-12-12', status:'Completed' },
+  { customer:'Isabella Garcia', amount:'$156.75', segment:'New Customers', date:'2024-12-05', status:'Completed' },
+  { customer:'Sophia Martinez', amount:'$421.20', segment:'Loyal Customers', date:'2024-11-25', status:'Completed' },
+  { customer:'Noah Anderson', amount:'$98.50', segment:'New Customers', date:'2024-12-01', status:'Pending' },
+  { customer:'Ava Johnson', amount:'$234.80', segment:'Potential Loyalists', date:'2024-11-15', status:'Completed' },
+  { customer:'James Wilson', amount:'$567.30', segment:'Champions', date:'2024-12-08', status:'Completed' },
+  { customer:'Mia Taylor', amount:'$178.90', segment:'Promising', date:'2024-10-28', status:'Completed' },
+  { customer:'Oliver Brown', amount:'$312.40', segment:'Loyal Customers', date:'2024-11-20', status:'Completed' },
+  { customer:'Ethan Thomas', amount:'$145.60', segment:'Promising', date:'2024-10-20', status:'Cancelled' }
+];
+
+const basketRules = [
+  { antecedent:'Laptop', consequent:'Laptop Bag', support:'0.142', confidence:'0.78', lift:'3.24', rec:'Bundle offer' },
+  { antecedent:'Smartphone', consequent:'Phone Case', support:'0.198', confidence:'0.85', lift:'3.12', rec:'Cross-sell' },
+  { antecedent:'Running Shoes', consequent:'Sports Socks', support:'0.167', confidence:'0.72', lift:'2.98', rec:'Bundle offer' },
+  { antecedent:'Coffee Maker', consequent:'Coffee Beans', support:'0.134', confidence:'0.81', lift:'2.87', rec:'Subscription' },
+  { antecedent:'Yoga Mat', consequent:'Resistance Bands', support:'0.089', confidence:'0.68', lift:'2.76', rec:'Bundle offer' },
+  { antecedent:'Headphones', consequent:'Headphone Stand', support:'0.076', confidence:'0.65', lift:'2.65', rec:'Cross-sell' },
+  { antecedent:'Camera', consequent:'Memory Card', support:'0.112', confidence:'0.89', lift:'2.54', rec:'Bundle offer' },
+  { antecedent:'Tablet', consequent:'Tablet Cover', support:'0.098', confidence:'0.74', lift:'2.43', rec:'Cross-sell' },
+  { antecedent:'Blender', consequent:'Protein Powder', support:'0.067', confidence:'0.58', lift:'2.32', rec:'Upsell' },
+  { antecedent:'Gaming Console', consequent:'Extra Controller', support:'0.145', confidence:'0.82', lift:'2.21', rec:'Bundle offer' },
+  { antecedent:'Dress Shirt', consequent:'Tie', support:'0.089', confidence:'0.61', lift:'2.18', rec:'Cross-sell' },
+  { antecedent:'Sneakers', consequent:'Insoles', support:'0.054', confidence:'0.55', lift:'2.09', rec:'Add-on' },
+  { antecedent:'Backpack', consequent:'Water Bottle', support:'0.078', confidence:'0.63', lift:'1.98', rec:'Bundle offer' },
+  { antecedent:'Sunglasses', consequent:'Sunscreen', support:'0.045', confidence:'0.52', lift:'1.87', rec:'Cross-sell' },
+  { antecedent:'Cookbook', consequent:'Kitchen Utensils', support:'0.062', confidence:'0.57', lift:'1.76', rec:'Bundle offer' }
+];
+
+const cohortData = [
+  [100,42,31,24,19,16,14,12,11,10,9,8],
+  [100,44,33,26,21,17,15,13,12,11,10,null],
+  [100,41,30,23,18,15,13,11,10,9,null,null],
+  [100,46,35,27,22,18,16,14,13,null,null,null],
+  [100,43,32,25,20,16,14,12,null,null,null,null],
+  [100,45,34,26,21,17,15,null,null,null,null,null],
+  [100,47,36,28,23,19,null,null,null,null,null,null],
+  [100,44,33,25,20,null,null,null,null,null,null,null],
+  [100,48,37,29,null,null,null,null,null,null,null,null],
+  [100,46,35,null,null,null,null,null,null,null,null,null],
+  [100,49,null,null,null,null,null,null,null,null,null,null],
+  [100,null,null,null,null,null,null,null,null,null,null,null]
+];
+const cohortMonths = ['Jan 2024','Feb 2024','Mar 2024','Apr 2024','May 2024','Jun 2024','Jul 2024','Aug 2024','Sep 2024','Oct 2024','Nov 2024','Dec 2024'];
+
+// ===== CHART INSTANCES =====
+const chartInstances = {};
+
+function destroyChart(id) {
+  if (chartInstances[id]) { chartInstances[id].destroy(); delete chartInstances[id]; }
+}
+</script>
+<script>
+// ===== AUTH =====
+function login() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
+  if (email === DEMO_CREDENTIALS.email && password === DEMO_CREDENTIALS.password) {
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
+    showPage('dashboard');
+  } else {
+    alert('Invalid credentials. Use: admin@consumer360.com / admin123');
+  }
+}
+function logout() {
+  document.getElementById('mainApp').style.display = 'none';
+  document.getElementById('loginPage').style.display = 'flex';
+}
+document.getElementById('loginPassword').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+// ===== NAVIGATION =====
+const pageTitles = {
+  dashboard: 'Dashboard',
+  rfm: 'RFM Analysis',
+  customers: 'Customer Analytics',
+  cohort: 'Cohort Analysis',
+  basket: 'Market Basket Analysis',
+  reports: 'Reports & Exports',
+  settings: 'Settings'
+};
+
+function showPage(pageName) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const page = document.getElementById('page-' + pageName);
+  if (page) page.classList.add('active');
+  const nav = document.getElementById('nav-' + pageName);
+  if (nav) nav.classList.add('active');
+  document.getElementById('headerTitle').textContent = pageTitles[pageName] || pageName;
+  setTimeout(() => initPageCharts(pageName), 100);
+}
+
+function initPageCharts(pageName) {
+  if (pageName === 'dashboard') initDashboardCharts();
+  else if (pageName === 'rfm') initRFMCharts();
+  else if (pageName === 'cohort') initCohortCharts();
+  else if (pageName === 'basket') initBasketPage();
+  else if (pageName === 'customers') initCustomersPage();
+}
+
+// ===== SIDEBAR TOGGLE =====
+let sidebarCollapsed = false;
+function toggleSidebar() {
+  sidebarCollapsed = !sidebarCollapsed;
+  const sidebar = document.getElementById('sidebar');
+  const mainContent = document.getElementById('mainContent');
+  sidebar.classList.toggle('collapsed', sidebarCollapsed);
+  mainContent.classList.toggle('expanded', sidebarCollapsed);
+}
+
+// ===== THEME TOGGLE =====
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeIcon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+  const toggle = document.getElementById('darkModeToggle');
+  if (toggle) toggle.checked = !isDark;
+  localStorage.setItem('theme', isDark ? 'light' : 'dark');
+}
+// Load saved theme
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.getElementById('themeIcon').className = 'fas fa-sun';
+  }
+})();
+
+// ===== NOTIFICATIONS =====
+function toggleNotifications() {
+  document.getElementById('notifDropdown').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  const dd = document.getElementById('notifDropdown');
+  if (dd && !dd.closest('.header-btn') && !e.target.closest('#notifDropdown') && !e.target.closest('.header-btn')) {
+    dd.classList.remove('open');
+  }
+});
+
+// ===== CHART HELPERS =====
+function getGradient(ctx, color1, color2) {
+  const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+  gradient.addColorStop(0, color1);
+  gradient.addColorStop(1, color2);
+  return gradient;
+}
+const isDark = () => document.documentElement.getAttribute('data-theme') !== 'light';
+const gridColor = () => isDark() ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+const textColor = () => isDark() ? '#94a3b8' : '#64748b';
+const defaultChartOptions = (title) => ({
+  responsive: true, maintainAspectRatio: true,
+  plugins: {
+    legend: { labels: { color: textColor(), font: { family: 'Inter', size: 12 }, boxWidth: 12, padding: 16 } },
+    tooltip: {
+      backgroundColor: isDark() ? '#1a2235' : '#ffffff',
+      titleColor: isDark() ? '#e2e8f0' : '#1e293b',
+      bodyColor: isDark() ? '#94a3b8' : '#475569',
+      borderColor: isDark() ? '#2a3a5c' : '#e2e8f0',
+      borderWidth: 1, padding: 12, cornerRadius: 8,
+      titleFont: { family: 'Inter', weight: '600' },
+      bodyFont: { family: 'Inter' }
+    },
+    datalabels: { display: false }
+  },
+  scales: {
+    x: { grid: { color: gridColor() }, ticks: { color: textColor(), font: { family: 'Inter', size: 11 } } },
+    y: { grid: { color: gridColor() }, ticks: { color: textColor(), font: { family: 'Inter', size: 11 } } }
+  }
+});
+</script>
+<script>
+// ===== DASHBOARD CHARTS =====
+function initDashboardCharts() {
+  // Revenue Trend
+  destroyChart('revenueChart');
+  const rCtx = document.getElementById('revenueChart').getContext('2d');
+  const rGrad = rCtx.createLinearGradient(0, 0, 0, 280);
+  rGrad.addColorStop(0, 'rgba(59,130,246,0.3)');
+  rGrad.addColorStop(1, 'rgba(59,130,246,0.0)');
+  chartInstances['revenueChart'] = new Chart(rCtx, {
+    type: 'line',
+    data: {
+      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+      datasets: [{
+        label: 'Revenue ($)',
+        data: [185000,210000,198000,225000,242000,268000,255000,289000,312000,298000,334000,356000],
+        borderColor: '#3b82f6', backgroundColor: rGrad,
+        borderWidth: 2.5, fill: true, tension: 0.4,
+        pointBackgroundColor: '#3b82f6', pointRadius: 4, pointHoverRadius: 6
+      }]
+    },
+    options: {
+      ...defaultChartOptions('Revenue'),
+      plugins: { ...defaultChartOptions('Revenue').plugins, legend: { display: false } }
+    }
+  });
+
+  // Segment Donut
+  destroyChart('segmentDonutChart');
+  const sCtx = document.getElementById('segmentDonutChart').getContext('2d');
+  chartInstances['segmentDonutChart'] = new Chart(sCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Champions','Loyal','Potential','New','Promising','Hibernating','At Risk','Lost'],
+      datasets: [{
+        data: [2847,3156,2234,1876,1543,2198,1456,537],
+        backgroundColor: ['#10b981','#3b82f6','#06b6d4','#8b5cf6','#f59e0b','#f97316','#ef4444','#64748b'],
+        borderWidth: 0, hoverOffset: 8
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      cutout: '65%',
+      plugins: {
+        legend: { position: 'right', labels: { color: textColor(), font: { family: 'Inter', size: 11 }, boxWidth: 10, padding: 10 } },
+        tooltip: defaultChartOptions().plugins.tooltip,
+        datalabels: { display: false }
+      }
+    }
+  });
+
+  // Sales by Category (Stacked Bar)
+  destroyChart('categoryChart');
+  const cCtx = document.getElementById('categoryChart').getContext('2d');
+  chartInstances['categoryChart'] = new Chart(cCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Jul','Aug','Sep','Oct','Nov','Dec'],
+      datasets: [
+        { label:'Electronics', data:[42000,48000,51000,45000,58000,67000], backgroundColor:'#3b82f6', borderRadius:2 },
+        { label:'Clothing', data:[28000,31000,29000,34000,38000,42000], backgroundColor:'#8b5cf6', borderRadius:2 },
+        { label:'Food', data:[18000,21000,19000,22000,25000,28000], backgroundColor:'#10b981', borderRadius:2 },
+        { label:'Home', data:[15000,17000,16000,19000,21000,24000], backgroundColor:'#f59e0b', borderRadius:2 },
+        { label:'Sports', data:[12000,14000,13000,15000,17000,19000], backgroundColor:'#06b6d4', borderRadius:2 }
+      ]
+    },
+    options: {
+      ...defaultChartOptions('Category'),
+      scales: {
+        x: { stacked: true, grid: { color: gridColor() }, ticks: { color: textColor(), font: { family: 'Inter', size: 11 } } },
+        y: { stacked: true, grid: { color: gridColor() }, ticks: { color: textColor(), font: { family: 'Inter', size: 11 } } }
+      }
+    }
+  });
+
+  // Customer Growth (Area)
+  destroyChart('growthChart');
+  const gCtx = document.getElementById('growthChart').getContext('2d');
+  const gGrad1 = gCtx.createLinearGradient(0, 0, 0, 280);
+  gGrad1.addColorStop(0, 'rgba(139,92,246,0.3)'); gGrad1.addColorStop(1, 'rgba(139,92,246,0)');
+  const gGrad2 = gCtx.createLinearGradient(0, 0, 0, 280);
+  gGrad2.addColorStop(0, 'rgba(16,185,129,0.3)'); gGrad2.addColorStop(1, 'rgba(16,185,129,0)');
+  chartInstances['growthChart'] = new Chart(gCtx, {
+    type: 'line',
+    data: {
+      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+      datasets: [
+        { label:'New Customers', data:[820,940,880,1050,1120,1280,1190,1340,1450,1380,1560,1720], borderColor:'#8b5cf6', backgroundColor:gGrad1, fill:true, tension:0.4, borderWidth:2, pointRadius:3 },
+        { label:'Returning', data:[1200,1350,1280,1420,1580,1720,1650,1890,2010,1980,2150,2340], borderColor:'#10b981', backgroundColor:gGrad2, fill:true, tension:0.4, borderWidth:2, pointRadius:3 }
+      ]
+    },
+    options: defaultChartOptions('Growth')
+  });
+
+  // Top Products (Horizontal Bar)
+  destroyChart('topProductsChart');
+  const pCtx = document.getElementById('topProductsChart').getContext('2d');
+  chartInstances['topProductsChart'] = new Chart(pCtx, {
+    type: 'bar',
+    data: {
+      labels: ['MacBook Pro','iPhone 15','Samsung TV','Nike Air Max','Sony Headphones','iPad Pro','Dyson Vacuum','Levi Jeans','KitchenAid Mixer','Adidas Ultraboost'],
+      datasets: [{
+        label: 'Revenue ($)',
+        data: [89400,76200,64800,52300,48700,45200,38900,34600,31200,28800],
+        backgroundColor: ['#3b82f6','#8b5cf6','#06b6d4','#10b981','#f59e0b','#ef4444','#ec4899','#3b82f6','#8b5cf6','#06b6d4'],
+        borderRadius: 4
+      }]
+    },
+    options: {
+      ...defaultChartOptions('Products'),
+      indexAxis: 'y',
+      plugins: { ...defaultChartOptions('Products').plugins, legend: { display: false } }
+    }
+  });
+
+  // Recent Transactions Table
+  const tbody = document.getElementById('recentTransBody');
+  tbody.innerHTML = recentTransactions.map(t => `
+    <tr>
+      <td>${t.customer}</td>
+      <td style="color:var(--accent-green);font-weight:600">${t.amount}</td>
+      <td><span class="badge badge-${t.segment.toLowerCase().replace(/\s+/g,'')}">${t.segment}</span></td>
+      <td>${t.date}</td>
+      <td><span class="badge badge-${t.status.toLowerCase()}">${t.status}</span></td>
+    </tr>`).join('');
+}
+</script>
+<script>
+// ===== RFM CHARTS =====
+function initRFMCharts() {
+  // RFM Donut
+  destroyChart('rfmDonutChart');
+  const ctx = document.getElementById('rfmDonutChart').getContext('2d');
+  chartInstances['rfmDonutChart'] = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Champions','Loyal','Potential','New','Promising','Hibernating','At Risk','Lost'],
+      datasets: [{
+        data: [2847,3156,2234,1876,1543,2198,1456,537],
+        backgroundColor: ['#10b981','#3b82f6','#06b6d4','#8b5cf6','#f59e0b','#f97316','#ef4444','#64748b'],
+        borderWidth: 0, hoverOffset: 8
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true, cutout: '60%',
+      plugins: {
+        legend: { position: 'bottom', labels: { color: textColor(), font: { family: 'Inter', size: 11 }, boxWidth: 10, padding: 8 } },
+        tooltip: defaultChartOptions().plugins.tooltip,
+        datalabels: { display: false }
+      }
+    }
+  });
+
+  // Recency Distribution
+  destroyChart('recencyChart');
+  const rCtx = document.getElementById('recencyChart').getContext('2d');
+  chartInstances['recencyChart'] = new Chart(rCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Score 1','Score 2','Score 3','Score 4','Score 5'],
+      datasets: [{ label:'Customers', data:[1993,3654,4218,3892,2090], backgroundColor:['#ef4444','#f97316','#f59e0b','#10b981','#3b82f6'], borderRadius:6 }]
+    },
+    options: { ...defaultChartOptions('Recency'), plugins: { ...defaultChartOptions('Recency').plugins, legend: { display: false } } }
+  });
+
+  // Frequency Distribution
+  destroyChart('frequencyChart');
+  const fCtx = document.getElementById('frequencyChart').getContext('2d');
+  chartInstances['frequencyChart'] = new Chart(fCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Score 1','Score 2','Score 3','Score 4','Score 5'],
+      datasets: [{ label:'Customers', data:[2413,3187,3956,3421,2870], backgroundColor:['#ef4444','#f97316','#f59e0b','#10b981','#8b5cf6'], borderRadius:6 }]
+    },
+    options: { ...defaultChartOptions('Frequency'), plugins: { ...defaultChartOptions('Frequency').plugins, legend: { display: false } } }
+  });
+
+  // Monetary Distribution
+  destroyChart('monetaryChart');
+  const mCtx = document.getElementById('monetaryChart').getContext('2d');
+  chartInstances['monetaryChart'] = new Chart(mCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Score 1','Score 2','Score 3','Score 4','Score 5'],
+      datasets: [{ label:'Customers', data:[1876,2934,4123,4287,2627], backgroundColor:['#ef4444','#f97316','#f59e0b','#10b981','#06b6d4'], borderRadius:6 }]
+    },
+    options: { ...defaultChartOptions('Monetary'), plugins: { ...defaultChartOptions('Monetary').plugins, legend: { display: false } } }
+  });
+
+  // Segment Cards
+  const segmentData = [
+    { name:'Champions', count:2847, score:4.8, revenue:'$892,450', color:'#10b981', pct:18 },
+    { name:'Loyal Customers', count:3156, score:4.2, revenue:'$756,230', color:'#3b82f6', pct:20 },
+    { name:'Potential Loyalists', count:2234, score:3.6, revenue:'$445,670', color:'#06b6d4', pct:14 },
+    { name:'New Customers', count:1876, score:3.1, revenue:'$234,560', color:'#8b5cf6', pct:12 },
+    { name:'Promising', count:1543, score:2.8, revenue:'$189,340', color:'#f59e0b', pct:10 },
+    { name:'Hibernating', count:2198, score:2.2, revenue:'$156,780', color:'#f97316', pct:14 },
+    { name:'At Risk', count:1456, score:1.8, revenue:'$98,450', color:'#ef4444', pct:9 },
+    { name:'Lost', count:537, score:1.2, revenue:'$23,910', color:'#64748b', pct:3 }
+  ];
+  const grid = document.getElementById('segmentCardsGrid');
+  grid.innerHTML = segmentData.map(s => `
+    <div class="segment-card">
+      <div class="segment-card-top">
+        <div class="segment-card-name">${s.name}</div>
+        <div style="width:10px;height:10px;border-radius:50%;background:${s.color}"></div>
+      </div>
+      <div class="segment-card-count">${s.count.toLocaleString()}</div>
+      <div class="segment-card-label">customers</div>
+      <div class="segment-card-revenue">Revenue: <strong style="color:var(--text-primary)">${s.revenue}</strong></div>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:4px">Avg RFM Score: <strong style="color:${s.color}">${s.score}</strong></div>
+      <div class="segment-card-bar"><div class="segment-card-bar-fill" style="width:${s.pct}%;background:${s.color}"></div></div>
+    </div>`).join('');
+}
+</script>
+<script>
+// ===== COHORT CHARTS =====
+function initCohortCharts() {
+  // Build heatmap table
+  const table = document.getElementById('cohortTable');
+  const months = ['M0','M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11'];
+  let html = '<thead><tr><th>Cohort</th>' + months.map(m => `<th>${m}</th>`).join('') + '</tr></thead><tbody>';
+  cohortData.forEach((row, i) => {
+    html += `<tr><td class="cohort-label">${cohortMonths[i]}</td>`;
+    row.forEach(val => {
+      if (val === null) { html += '<td style="background:transparent;color:transparent">—</td>'; return; }
+      const r = val < 20 ? 239 : val < 40 ? 245 : 16;
+      const g = val < 20 ? 68 : val < 40 ? 158 : 185;
+      const b = val < 20 ? 68 : val < 40 ? 11 : 129;
+      const alpha = 0.3 + (val / 100) * 0.7;
+      html += `<td style="background:rgba(${r},${g},${b},${alpha})">${val}%</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody>';
+  table.innerHTML = html;
+
+  // Retention Trend Chart
+  destroyChart('cohortTrendChart');
+  const tCtx = document.getElementById('cohortTrendChart').getContext('2d');
+  chartInstances['cohortTrendChart'] = new Chart(tCtx, {
+    type: 'line',
+    data: {
+      labels: cohortMonths,
+      datasets: [{
+        label: 'Month-1 Retention %',
+        data: [42,44,41,46,43,45,47,44,48,46,49,null],
+        borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)',
+        fill: true, tension: 0.4, borderWidth: 2.5, pointRadius: 4
+      }]
+    },
+    options: defaultChartOptions('Cohort Trend')
+  });
+
+  // Average Retention Bar
+  destroyChart('avgRetentionChart');
+  const aCtx = document.getElementById('avgRetentionChart').getContext('2d');
+  chartInstances['avgRetentionChart'] = new Chart(aCtx, {
+    type: 'bar',
+    data: {
+      labels: ['M0','M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11'],
+      datasets: [{
+        label: 'Avg Retention %',
+        data: [100,44.5,33.5,26.0,20.4,16.6,14.4,12.5,11.5,10.0,9.5,8.0],
+        backgroundColor: (ctx) => {
+          const v = ctx.raw;
+          if (v >= 50) return '#10b981';
+          if (v >= 25) return '#3b82f6';
+          if (v >= 10) return '#f59e0b';
+          return '#ef4444';
+        },
+        borderRadius: 6
+      }]
+    },
+    options: { ...defaultChartOptions('Avg Retention'), plugins: { ...defaultChartOptions('Avg Retention').plugins, legend: { display: false } } }
+  });
+}
+
+// ===== MARKET BASKET PAGE =====
+function initBasketPage() {
+  // Association Rules Table
+  const tbody = document.getElementById('basketTableBody');
+  tbody.innerHTML = basketRules.map(r => `
+    <tr>
+      <td><span class="product-tag">${r.antecedent}</span></td>
+      <td><span class="product-tag" style="background:rgba(139,92,246,0.1);color:var(--accent-purple)">${r.consequent}</span></td>
+      <td>${r.support}</td>
+      <td><div style="display:flex;align-items:center;gap:6px"><div style="width:${parseFloat(r.confidence)*60}px;height:6px;background:var(--accent-blue);border-radius:3px"></div>${(parseFloat(r.confidence)*100).toFixed(0)}%</div></td>
+      <td><strong style="color:${parseFloat(r.lift)>2.5?'var(--accent-green)':parseFloat(r.lift)>2?'var(--accent-orange)':'var(--text-secondary)'}">${r.lift}x</strong></td>
+      <td><span class="badge badge-active">${r.rec}</span></td>
+    </tr>`).join('');
+
+  // Product Pairs
+  const pairs = [
+    { a:'Laptop', b:'Laptop Bag', support:'14.2%', confidence:'78%', lift:'3.24x' },
+    { a:'Smartphone', b:'Phone Case', support:'19.8%', confidence:'85%', lift:'3.12x' },
+    { a:'Running Shoes', b:'Sports Socks', support:'16.7%', confidence:'72%', lift:'2.98x' },
+    { a:'Coffee Maker', b:'Coffee Beans', support:'13.4%', confidence:'81%', lift:'2.87x' },
+    { a:'Camera', b:'Memory Card', support:'11.2%', confidence:'89%', lift:'2.54x' },
+    { a:'Gaming Console', b:'Extra Controller', support:'14.5%', confidence:'82%', lift:'2.21x' }
+  ];
+  document.getElementById('productPairsGrid').innerHTML = pairs.map(p => `
+    <div class="product-pair-card">
+      <div class="product-pair-items">
+        <span class="product-tag">${p.a}</span>
+        <span class="product-pair-arrow"><i class="fas fa-arrow-right"></i></span>
+        <span class="product-tag" style="background:rgba(139,92,246,0.1);color:var(--accent-purple)">${p.b}</span>
+      </div>
+      <div class="product-pair-metrics">
+        <div class="pair-metric"><div class="pair-metric-value" style="color:var(--accent-blue)">${p.support}</div><div class="pair-metric-label">Support</div></div>
+        <div class="pair-metric"><div class="pair-metric-value" style="color:var(--accent-purple)">${p.confidence}</div><div class="pair-metric-label">Confidence</div></div>
+        <div class="pair-metric"><div class="pair-metric-value" style="color:var(--accent-green)">${p.lift}</div><div class="pair-metric-label">Lift</div></div>
+      </div>
+    </div>`).join('');
+
+  // Category Affinity Heatmap
+  const cats = ['Electronics','Clothing','Food','Home','Sports'];
+  const affinityMatrix = [
+    [1.00,0.23,0.18,0.31,0.42],
+    [0.23,1.00,0.29,0.38,0.51],
+    [0.18,0.29,1.00,0.44,0.22],
+    [0.31,0.38,0.44,1.00,0.35],
+    [0.42,0.51,0.22,0.35,1.00]
+  ];
+  const affinityTable = document.getElementById('affinityTable');
+  let aHtml = '<thead><tr><th></th>' + cats.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+  affinityMatrix.forEach((row, i) => {
+    aHtml += `<tr><th style="text-align:left;background:var(--bg-secondary);color:var(--text-muted)">${cats[i]}</th>`;
+    row.forEach(val => {
+      const intensity = Math.round(val * 255);
+      const alpha = 0.1 + val * 0.7;
+      const color = val === 1 ? 'rgba(59,130,246,0.8)' : val > 0.4 ? `rgba(16,185,129,${alpha})` : val > 0.25 ? `rgba(245,158,11,${alpha})` : `rgba(100,116,139,${alpha})`;
+      aHtml += `<td style="background:${color};color:white;font-weight:600">${val.toFixed(2)}</td>`;
+    });
+    aHtml += '</tr>';
+  });
+  aHtml += '</tbody>';
+  affinityTable.innerHTML = aHtml;
+
+  // Lift Chart
+  destroyChart('liftChart');
+  const lCtx = document.getElementById('liftChart').getContext('2d');
+  chartInstances['liftChart'] = new Chart(lCtx, {
+    type: 'bar',
+    data: {
+      labels: basketRules.slice(0,8).map(r => r.antecedent + ' → ' + r.consequent),
+      datasets: [{ label:'Lift', data: basketRules.slice(0,8).map(r => parseFloat(r.lift)), backgroundColor:'#3b82f6', borderRadius:4 }]
+    },
+    options: {
+      ...defaultChartOptions('Lift'), indexAxis: 'y',
+      plugins: { ...defaultChartOptions('Lift').plugins, legend: { display: false } }
+    }
+  });
+}
+</script>
+<script>
+// ===== CUSTOMER ANALYTICS PAGE =====
+let filteredCustomers = [...customers];
+let sortKey = 'id', sortDir = 1;
+let currentPage = 1;
+const pageSize = 20;
+
+function initCustomersPage() {
+  filteredCustomers = [...customers];
+  renderCustomerTable();
+}
+
+function filterCustomers() {
+  const seg = document.getElementById('segmentFilter').value;
+  const status = document.getElementById('statusFilter').value;
+  const search = document.getElementById('customerSearch').value.toLowerCase();
+  filteredCustomers = customers.filter(c => {
+    if (seg && c.segment !== seg) return false;
+    if (status && c.status !== status) return false;
+    if (search && !c.name.toLowerCase().includes(search) && !c.id.toLowerCase().includes(search)) return false;
+    return true;
+  });
+  currentPage = 1;
+  renderCustomerTable();
+}
+
+function sortCustomers(key) {
+  if (sortKey === key) sortDir *= -1;
+  else { sortKey = key; sortDir = 1; }
+  filteredCustomers.sort((a, b) => {
+    let av = a[key], bv = b[key];
+    if (typeof av === 'string') av = av.toLowerCase(), bv = bv.toLowerCase();
+    return av < bv ? -sortDir : av > bv ? sortDir : 0;
+  });
+  renderCustomerTable();
+}
+
+function changePage(dir) {
+  const maxPage = Math.ceil(filteredCustomers.length / pageSize);
+  currentPage = Math.max(1, Math.min(maxPage, currentPage + dir));
+  renderCustomerTable();
+}
+
+function renderCustomerTable() {
+  const start = (currentPage - 1) * pageSize;
+  const end = start + pageSize;
+  const page = filteredCustomers.slice(start, end);
+  const segBadgeMap = {
+    'Champions':'champions','Loyal Customers':'loyal','Potential Loyalists':'potential',
+    'New Customers':'new','Promising':'promising','Hibernating':'hibernating',
+    'At Risk':'atrisk','Lost':'lost'
+  };
+  document.getElementById('customerTableBody').innerHTML = page.map(c => `
+    <tr style="cursor:pointer" onclick="openCustomerModal('${c.id}')">
+      <td>${c.id}</td>
+      <td><div style="display:flex;align-items:center;gap:8px">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--gradient-1);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;flex-shrink:0">${c.name.split(' ').map(n=>n[0]).join('')}</div>
+        ${c.name}
+      </div></td>
+      <td><span class="badge badge-${segBadgeMap[c.segment]||'new'}">${c.segment}</span></td>
+      <td>${c.recency}/5</td>
+      <td>${c.frequency}</td>
+      <td>$${c.monetary.toLocaleString()}</td>
+      <td><strong style="color:var(--accent-blue)">${c.rfmScore}</strong></td>
+      <td>${c.lastPurchase}</td>
+      <td><span class="badge badge-${c.status.toLowerCase()}">${c.status}</span></td>
+      <td><button class="chart-btn" onclick="event.stopPropagation();openCustomerModal('${c.id}')">View</button></td>
+    </tr>`).join('');
+  document.getElementById('customerCount').textContent = `Showing ${filteredCustomers.length} customers`;
+  document.getElementById('paginationInfo').textContent = `Showing ${start+1}–${Math.min(end, filteredCustomers.length)} of ${filteredCustomers.length}`;
+  document.getElementById('pageNum').textContent = currentPage;
+}
+
+// ===== CUSTOMER MODAL =====
+function openCustomerModal(id) {
+  const c = customers.find(x => x.id === id);
+  if (!c) return;
+  const segBadgeMap = {
+    'Champions':'champions','Loyal Customers':'loyal','Potential Loyalists':'potential',
+    'New Customers':'new','Promising':'promising','Hibernating':'hibernating',
+    'At Risk':'atrisk','Lost':'lost'
+  };
+  const initials = c.name.split(' ').map(n=>n[0]).join('');
+  const spendHistory = [120,180,95,240,310,180,420,290,380,c.monetary/10].map(v => Math.round(v));
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-profile-header">
+      <div class="modal-avatar">${initials}</div>
+      <div>
+        <div class="modal-customer-name">${c.name}</div>
+        <div class="modal-customer-id">${c.id} &nbsp;|&nbsp; <span class="badge badge-${segBadgeMap[c.segment]||'new'}">${c.segment}</span></div>
+      </div>
+    </div>
+    <div class="modal-metrics">
+      <div class="modal-metric"><div class="modal-metric-value" style="color:var(--accent-green)">$${c.monetary.toLocaleString()}</div><div class="modal-metric-label">Total Spent</div></div>
+      <div class="modal-metric"><div class="modal-metric-value" style="color:var(--accent-blue)">${c.frequency}</div><div class="modal-metric-label">Orders</div></div>
+      <div class="modal-metric"><div class="modal-metric-value" style="color:var(--accent-purple)">$${Math.round(c.monetary/c.frequency).toLocaleString()}</div><div class="modal-metric-label">Avg Order</div></div>
+      <div class="modal-metric"><div class="modal-metric-value" style="color:var(--accent-orange)">${Math.round((new Date()-new Date(c.lastPurchase))/(1000*60*60*24))}d</div><div class="modal-metric-label">Days Since Purchase</div></div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:8px">Spending Trend (Last 10 Months)</div>
+      <canvas id="modalSpendChart" height="80"></canvas>
+    </div>
+    <div>
+      <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:8px">Recent Purchase History</div>
+      <table><thead><tr><th>Date</th><th>Product</th><th>Category</th><th>Amount</th></tr></thead>
+      <tbody>${Array.from({length:5},(_,i)=>`<tr><td>${new Date(new Date(c.lastPurchase)-i*30*24*60*60*1000).toISOString().split('T')[0]}</td><td>Product ${String.fromCharCode(65+i)}</td><td>Electronics</td><td>$${Math.round(spendHistory[i]).toLocaleString()}</td></tr>`).join('')}</tbody></table>
+    </div>`;
+  document.getElementById('customerModal').classList.add('open');
+  setTimeout(() => {
+    const mCtx = document.getElementById('modalSpendChart');
+    if (mCtx) {
+      const grad = mCtx.getContext('2d').createLinearGradient(0,0,0,80);
+      grad.addColorStop(0,'rgba(59,130,246,0.3)'); grad.addColorStop(1,'rgba(59,130,246,0)');
+      new Chart(mCtx, {
+        type:'line',
+        data:{ labels:['M1','M2','M3','M4','M5','M6','M7','M8','M9','M10'], datasets:[{ data:spendHistory, borderColor:'#3b82f6', backgroundColor:grad, fill:true, tension:0.4, borderWidth:2, pointRadius:3 }] },
+        options:{ responsive:true, plugins:{ legend:{display:false}, datalabels:{display:false}, tooltip:defaultChartOptions().plugins.tooltip }, scales:{ x:{grid:{color:gridColor()},ticks:{color:textColor(),font:{family:'Inter',size:10}}}, y:{grid:{color:gridColor()},ticks:{color:textColor(),font:{family:'Inter',size:10}}} } }
+      });
+    }
+  }, 50);
+}
+function closeModal() {
+  document.getElementById('customerModal').classList.remove('open');
+}
+document.getElementById('customerModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('customerModal')) closeModal();
+});
+</script>
+<script>
+// ===== EXPORT FUNCTIONS =====
+function exportCSV(data, filename) {
+  if (!data || data.length === 0) {
+    data = [{ message: 'No data available for export', generated: new Date().toISOString() }];
+  }
+  const headers = Object.keys(data[0]);
+  const rows = data.map(row => headers.map(h => JSON.stringify(row[h] ?? '')).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = (filename || 'export') + '.csv';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+function exportSegmentCSV() {
+  const data = [
+    { segment:'Champions', count:2847, avgRFM:4.8, revenue:892450, avgOrder:313 },
+    { segment:'Loyal Customers', count:3156, avgRFM:4.2, revenue:756230, avgOrder:240 },
+    { segment:'Potential Loyalists', count:2234, avgRFM:3.6, revenue:445670, avgOrder:199 },
+    { segment:'New Customers', count:1876, avgRFM:3.1, revenue:234560, avgOrder:125 },
+    { segment:'Promising', count:1543, avgRFM:2.8, revenue:189340, avgOrder:123 },
+    { segment:'Hibernating', count:2198, avgRFM:2.2, revenue:156780, avgOrder:71 },
+    { segment:'At Risk', count:1456, avgRFM:1.8, revenue:98450, avgOrder:68 },
+    { segment:'Lost', count:537, avgRFM:1.2, revenue:23910, avgOrder:45 }
+  ];
+  exportCSV(data, 'rfm-segments');
+}
+
+function exportCustomerCSV() {
+  exportCSV(filteredCustomers, 'customers');
+}
+
+function exportCohortCSV() {
+  const rows = cohortData.map((row, i) => {
+    const obj = { cohort: cohortMonths[i] };
+    row.forEach((val, j) => { obj['Month_' + j] = val !== null ? val + '%' : ''; });
+    return obj;
+  });
+  exportCSV(rows, 'cohort-retention');
+}
+
+function exportBasketCSV() {
+  exportCSV(basketRules, 'market-basket-rules');
+}
+
+function exportPDF() {
+  const style = document.createElement('style');
+  style.id = 'printStyle';
+  style.textContent = `
+    @media print {
+      #loginPage, .sidebar, .header, .header-actions, .chart-actions, .btn-primary, .btn-report, .filter-bar, .pagination { display: none !important; }
+      .main-content { margin-left: 0 !important; }
+      .page { display: block !important; page-break-after: always; }
+      body { background: white !important; color: black !important; }
+      .kpi-card, .chart-card, .table-card, .settings-card { border: 1px solid #ccc !important; background: white !important; }
+    }`;
+  document.head.appendChild(style);
+  window.print();
+  setTimeout(() => { const s = document.getElementById('printStyle'); if (s) s.remove(); }, 1000);
+}
+
+// ===== KEYBOARD SHORTCUTS =====
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    document.getElementById('notifDropdown').classList.remove('open');
+  }
+});
+
+// ===== CHART.JS GLOBAL DEFAULTS =====
+Chart.defaults.font.family = 'Inter';
+Chart.defaults.color = '#94a3b8';
+Chart.register(ChartDataLabels);
+
+// ===== INIT ON LOAD =====
+window.addEventListener('load', () => {
+  // Check saved theme
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    const icon = document.getElementById('themeIcon');
+    if (icon) icon.className = 'fas fa-sun';
+  }
+});
+</script>
+<style>
+/* ===== ADDITIONAL POLISH STYLES ===== */
+/* Glassmorphism effect for login */
+.login-card { backdrop-filter: blur(20px) saturate(180%); }
+
+/* Smooth page transitions */
+.page { transition: opacity 0.3s ease; }
+
+/* Table sort indicator */
+thead th { user-select: none; }
+thead th:hover i { color: var(--accent-blue); }
+
+/* Animated KPI values */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.kpi-value { animation: countUp 0.6s ease forwards; }
+
+/* Segment card bar animation */
+.segment-card-bar-fill { animation: barGrow 1.2s cubic-bezier(0.4,0,0.2,1) forwards; }
+@keyframes barGrow { from { width: 0 !important; } }
+
+/* Hover glow on nav items */
+.nav-item.active { box-shadow: inset 0 0 20px rgba(59,130,246,0.05); }
+
+/* Chart card subtle glow on hover */
+.chart-card:hover { box-shadow: 0 4px 24px rgba(59,130,246,0.08); }
+
+/* KPI card glow */
+.kpi-card.blue:hover { box-shadow: 0 8px 32px rgba(59,130,246,0.15); }
+.kpi-card.purple:hover { box-shadow: 0 8px 32px rgba(139,92,246,0.15); }
+.kpi-card.cyan:hover { box-shadow: 0 8px 32px rgba(6,182,212,0.15); }
+.kpi-card.green:hover { box-shadow: 0 8px 32px rgba(16,185,129,0.15); }
+.kpi-card.orange:hover { box-shadow: 0 8px 32px rgba(245,158,11,0.15); }
+.kpi-card.pink:hover { box-shadow: 0 8px 32px rgba(236,72,153,0.15); }
+
+/* Insight item hover */
+.insight-item:hover { transform: translateX(4px); }
+
+/* Report card hover */
+.report-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+
+/* Segment card hover */
+.segment-card:hover { border-color: rgba(59,130,246,0.3); }
+
+/* Product pair card hover */
+.product-pair-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+
+/* Scrollable sidebar nav */
+.sidebar-nav::-webkit-scrollbar { width: 3px; }
+.sidebar-nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* Loading state */
+.loading { display: flex; align-items: center; justify-content: center; min-height: 200px; }
+
+/* Tooltip custom */
+.custom-tooltip {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Badge pulse for active notifications */
+.notif-badge { animation: badgePulse 2s ease-in-out infinite; }
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+  50% { box-shadow: 0 0 0 4px rgba(239,68,68,0); }
+}
+
+/* Cohort table cell hover */
+.cohort-table td:not(.cohort-label):hover { outline: 2px solid white; outline-offset: -2px; cursor: default; }
+
+/* Affinity table cell hover */
+.affinity-table td:hover { outline: 2px solid white; outline-offset: -2px; cursor: default; }
+
+/* Form input focus glow */
+.form-input:focus { box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+
+/* Button active state */
+.btn-primary:active { transform: scale(0.98); }
+.btn-login:active { transform: scale(0.98); }
+
+/* Sidebar transition */
+.sidebar, .main-content { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+/* Page content min height */
+.page-content { min-height: calc(100vh - var(--header-height)); }
+
+/* Table row click cursor */
+tbody tr { cursor: default; }
+
+/* Modal backdrop blur */
+.modal-overlay { backdrop-filter: blur(8px); }
+
+/* Responsive chart containers */
+@media (max-width: 1400px) {
+  .charts-grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+  .charts-grid-3 { grid-template-columns: 1fr; }
+  .mini-stats { grid-template-columns: repeat(2, 1fr); }
+  .rfm-score-cards { grid-template-columns: 1fr; }
+}
+
+/* Light mode overrides */
+[data-theme="light"] .login-card { background: rgba(255,255,255,0.9); }
+[data-theme="light"] .login-bg-animation .login-orb { opacity: 0.08; }
+[data-theme="light"] .chart-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+[data-theme="light"] thead th { background: rgba(0,0,0,0.02); }
+[data-theme="light"] tbody tr:hover { background: rgba(59,130,246,0.04); }
+[data-theme="light"] .notif-dropdown { box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+[data-theme="light"] .modal { box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
+[data-theme="light"] .sidebar { box-shadow: 2px 0 8px rgba(0,0,0,0.08); }
+[data-theme="light"] .header { box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+</style>
+
+</body>
+</html>
